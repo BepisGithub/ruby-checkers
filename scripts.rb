@@ -19,4 +19,6 @@ end
 
 class SpotNode
 
+  def initialize
+  end
 end
