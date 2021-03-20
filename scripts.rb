@@ -86,4 +86,7 @@ class Board
     @graph = LinkedList.new
     create_graph
   end
+
+  def create_graph
+  end
 end
