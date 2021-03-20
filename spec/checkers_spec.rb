@@ -31,4 +31,15 @@ describe Board do
     end
     expect(broken).to be false
   end
+  describe '#get_dark_spots' do
+    it 'returns an array of dark spots' do
+      board = Board.new
+      arr = board.get_dark_spots
+      working = true
+      arr.each do |node|
+        working = false unless node.data.dark == true
+      end
+      expect(working).to be true
+    end
+  end
 end
