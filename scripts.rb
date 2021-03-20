@@ -13,7 +13,11 @@ class LinkedList
 
   def initialize(node = nil)
     @head = node
-    @tail = @head
+    @tail = nil
+    unless node.nil?
+      @tail = @head
+      @tail = @tail.next_node until @tail.next_node.nil?
+    end
   end
 end
 
