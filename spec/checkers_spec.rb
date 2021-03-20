@@ -14,4 +14,10 @@ describe Board do
     board = Board.new
     expect(board.graph.tail.data.coordinate).to eql([8, 1])
   end
+  it 'alternates the dark and white spots' do
+    board = Board.new
+    expect(board.graph.head.data.dark).to be false
+    expect(board.graph.head.next_node.data.dark).to be_truthy
+
+  end
 end
