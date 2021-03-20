@@ -53,6 +53,11 @@ class LinkedList
     end
     nodes
   end
+
+  def empty?
+    return true if @head.nil?
+    false
+  end
 end
 
 class SpotNode
