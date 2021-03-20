@@ -80,6 +80,7 @@ class Move
 end
 
 class Board
+  attr_accessor :graph
 
   def initialize
     @graph = LinkedList.new
