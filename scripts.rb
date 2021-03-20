@@ -87,6 +87,10 @@ class Board
     create_graph
   end
 
+  def self.within_bounds?(coordinates, length = 8)
+
+  end
+
   def create_graph
     # A checkers grid is 8 x 8 with alternating dark and white spots
     # I will need the list to start at the top left and end at the bottom right
