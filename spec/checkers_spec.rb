@@ -14,10 +14,21 @@ describe Board do
     board = Board.new
     expect(board.graph.tail.data.coordinate).to eql([8, 1])
   end
-  it 'alternates the dark and white spots' do
+  it 'alternates the dark and white spots for the first two nodes' do
     board = Board.new
     expect(board.graph.head.data.dark).to be false
     expect(board.graph.head.next_node.data.dark).to be_truthy
-
+  end
+  it 'alternates the dark and white spots correctly across the whole board' do
+    broken = false
+    board = Board.new
+    nodes_array = board.graph.traverse
+    nodes_array.each_with_index do |node, index|
+      next if node.next_node.nil?
+      if node.data.dark == node.next_node.data.dark
+        broken = true unless (index + 1) % 8
+      end
+    end
+    expect(broken).to be false
   end
 end
