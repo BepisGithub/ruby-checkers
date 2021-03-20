@@ -84,5 +84,6 @@ class Board
 
   def initialize
     @graph = LinkedList.new
+    create_graph
   end
 end
