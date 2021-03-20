@@ -114,9 +114,11 @@ class Board
 
   def get_dark_spots
     nodes = @graph.traverse
-    nodes.select{ |node| node.data.dark }
+    nodes.select { |node| node.data.dark }
   end
 
   def get_occupied_dark_spots
+    nodes = get_dark_spots
+    nodes.select { |node| node.data.occupant }
   end
 end
