@@ -88,7 +88,13 @@ class Board
   end
 
   def self.within_bounds?(coordinates, length = 8)
-
+    if coordinates[0] <= length && coordinates[1] <= length
+      if (coordinates[0]).positive? && (coordinates[1]).positive?
+        return true
+      end
+      return false
+    end
+    return false
   end
 
   def create_graph
