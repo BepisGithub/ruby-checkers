@@ -1,5 +1,9 @@
 class LinkedNode
 
+  def initialize(data, next_node = nil)
+
+  end
+
 end
 
 class LinkedList
