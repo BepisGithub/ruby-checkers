@@ -91,5 +91,10 @@ class Board
     # A checkers grid is 8 x 8 with alternating dark and white spots
     # I will need the list to start at the top left and end at the bottom right
     # That means the coordinates will start at 1, 8 and end at 8, 1
+    8.downto(1) do |y|
+      8.times do |x|
+        
+      end
+    end
   end
 end
