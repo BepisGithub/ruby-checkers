@@ -126,4 +126,8 @@ class Board
     nodes = get_dark_spots
     nodes.select { |node| node.data.occupant.nil? }
   end
+
+  def display
+
+  end
 end
