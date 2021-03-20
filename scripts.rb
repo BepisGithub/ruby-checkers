@@ -1,4 +1,5 @@
 class LinkedNode
+  attr_accessor :data ,:next
 
   def initialize(data, next_node = nil)
     @data = data
