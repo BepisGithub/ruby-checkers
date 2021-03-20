@@ -123,6 +123,7 @@ class Board
   end
 
   def get_unoccupied_dark_spots
-
+    nodes = get_dark_spots
+    nodes.select { |node| node.data.occupant.nil? }
   end
 end
