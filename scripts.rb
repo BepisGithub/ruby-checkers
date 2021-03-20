@@ -19,6 +19,6 @@ end
 
 class SpotNode
 
-  def initialize
+  def initialize(bool_dark, coordinate, occupant = [' '])
   end
 end
