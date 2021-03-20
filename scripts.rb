@@ -18,6 +18,7 @@ class LinkedList
 end
 
 class SpotNode
+  attr_accessor :dark, :coordinate, :occupant
 
   def initialize(bool_dark, coordinate, occupant = [' '])
     @dark = bool_dark
