@@ -111,4 +111,8 @@ class Board
       end
     end
   end
+
+  def get_dark_spots
+    
+  end
 end
