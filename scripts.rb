@@ -69,3 +69,7 @@ class SpotNode
     @occupant = occupant
   end
 end
+
+class Move
+
+end
