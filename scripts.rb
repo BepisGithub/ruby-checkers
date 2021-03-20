@@ -1,3 +1,7 @@
+class LinkedNode
+
+end
+
 class LinkedList
   attr_accessor :head, :tail
   
