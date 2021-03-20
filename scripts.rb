@@ -19,7 +19,7 @@ class LinkedList
       @tail = @tail.next_node until @tail.next_node.nil?
     end
   end
-  
+
   def append(node)
     if @head.nil?
       @head = node
@@ -30,6 +30,17 @@ class LinkedList
         @tail = @tail.next_node
       end
     end
+  end
+
+  def size
+    return 0 if @head.nil?
+    counter = 1
+    next_node = @head.next_node
+    until next_node.nil?
+      next_node = next_node.next_node
+      counter += 1
+    end
+    counter
   end
 end
 
