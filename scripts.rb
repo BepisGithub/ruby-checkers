@@ -71,6 +71,7 @@ class SpotNode
 end
 
 class Move
+  attr_accessor :end_spot, :jumped_piece
 
   def initialize(end_spot, jumped_piece = nil)
     @end_spot = end_spot
