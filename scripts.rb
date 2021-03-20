@@ -113,6 +113,8 @@ class Board
   end
 
   def get_dark_spots
-    
+    nodes = @graph.traverse
+    nodes = nodes.select{ |node| node.data.dark}
+    nodes
   end
 end
