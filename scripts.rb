@@ -42,6 +42,17 @@ class LinkedList
     end
     counter
   end
+
+  def traverse
+    nodes = []
+    traversing = @head
+    nodes.push(traversing)
+    until traversing.next_node.nil?
+      traversing = traversing.next_node
+      nodes.push(traversing)
+    end
+    nodes
+  end
 end
 
 class SpotNode
