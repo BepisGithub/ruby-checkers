@@ -72,7 +72,7 @@ end
 
 class Move
 
-  def initialize
-    
+  def initialize(end_spot, jumped_piece = nil)
+
   end
 end
