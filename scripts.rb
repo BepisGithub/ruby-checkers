@@ -63,7 +63,7 @@ end
 class SpotNode
   attr_accessor :dark, :coordinate, :occupant
 
-  def initialize(bool_dark, coordinate, occupant = [' '])
+  def initialize(bool_dark, coordinate, occupant = nil)
     @dark = bool_dark
     @coordinate = coordinate
     @occupant = occupant
