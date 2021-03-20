@@ -78,3 +78,7 @@ class Move
     @jumped_piece = jumped_piece
   end
 end
+
+class Board
+
+end
