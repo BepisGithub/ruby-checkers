@@ -82,6 +82,6 @@ end
 class Board
 
   def initialize
-    
+    @graph = LinkedList.new
   end
 end
