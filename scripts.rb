@@ -19,6 +19,18 @@ class LinkedList
       @tail = @tail.next_node until @tail.next_node.nil?
     end
   end
+  
+  def append(node)
+    if @head.nil?
+      @head = node
+      @tail = @head
+    else
+      @tail.next_node = node
+      until @tail.next_node.nil?
+        @tail = @tail.next_node
+      end
+    end
+  end
 end
 
 class SpotNode
