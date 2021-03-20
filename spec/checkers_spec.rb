@@ -10,4 +10,8 @@ describe Board do
     board = Board.new
     expect(board.graph.head.data.coordinate).to eql([1, 8])
   end
+  it 'ends at coordinate [8, 1]' do
+    board = Board.new
+    expect(board.graph.tail.data.coordinate).to eql([8, 1])
+  end
 end
