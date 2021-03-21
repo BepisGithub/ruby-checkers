@@ -310,7 +310,7 @@ class Player
 
   def get_name
     puts 'What\'s your name? '
-    name = gets.chomp
+    name = gets.chomp.capitalize
     @name = name
     puts "Hey, #{name}"
   end
