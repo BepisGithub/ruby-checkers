@@ -128,7 +128,7 @@ class Board
   end
 
   def display
-    puts ' '
+    puts '--------------------'
     graph_nodes = @graph.traverse
     y_coordinate_counter = graph_nodes[0].data.coordinate[1]
     graph_nodes.each do |linked_node|
