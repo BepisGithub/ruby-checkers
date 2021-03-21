@@ -182,6 +182,15 @@ end
 class Pieces
 
   def initialize(id, owner, king = false, move_up)
-
+    @id = id
+    @owner = owner
+    @king = king
+    if king
+      @move_up = true
+      @move_down = true
+    else
+      @move_up = move_up
+      @move_down = !move_up
+    end
   end
 end
