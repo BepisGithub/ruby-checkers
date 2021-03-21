@@ -192,6 +192,10 @@ class Board
     return nodes[0]
   end
 
+  def populate_adjacenct_direction()
+
+  end
+
   def populate_adjacency_list(piece)
     # Some how make this into a function that you can pass an offset to
     # So that you don't have to write a bunch of lines of code that do almost exactly the same thing
