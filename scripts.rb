@@ -246,11 +246,19 @@ class Board
   def occupy(coordinates, occupant)
     linked_node = find_by_coord(coordinates)
     linked_node.data.occupant = occupant
+    occupied_spots = get_occupied_dark_spots
+    occupied_spots.each do |spot|
+      populate_adjacency_list(spot.data.occupant)
+    end
   end
 
   def occupant_remover(coordinates)
     linked_node = find_by_coord(coordinates)
     linked_node.data.occupant = nil
+    occupied_spots = get_occupied_dark_spots
+    occupied_spots.each do |spot|
+      populate_adjacency_list(spot.data.occupant)
+    end
   end
 
   def remove_by_id(id)
@@ -258,16 +266,16 @@ class Board
     occupied_dark_spots.select { |spot| spot.data.occupant.id == id }
     popped_occupant = occupied_dark_spots[0].occupant
     occupied_dark_spots[0].occupant = nil
+    occupied_spots = get_occupied_dark_spots
+    occupied_spots.each do |spot|
+      populate_adjacency_list(spot.data.occupant)
+    end
     return popped_occupant
   end
 
   def move_by_id(id, coordinates)
     occupant = remove_by_id(id)
-    dark_spots = get_dark_spots
-    return 'error out of bounds ' unless Board.within_bounds?(coordinates)
-    dark_spot = dark_spots.select { |spot| spot.data.coordinate == coordinates }
-    dark_spot = dark_spot[0]
-    dark_spot.data.occupant = occupant
+    occupy(coordinates, occupant)
   end
 end
 
