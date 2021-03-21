@@ -129,7 +129,7 @@ class Board
 
   def display
     puts '--------------------'
-    dark_occupant = ['⬛']
+    dark_occupant = ['▆']
     light_occupant = [' ']
     graph_nodes = @graph.traverse
     y_coordinate_counter = graph_nodes[0].data.coordinate[1]
