@@ -233,7 +233,10 @@ class Board
   end
 
   def populate_adjacency_list(piece)
-    
+    populate_adjacenct_direction(piece, :tr)
+    populate_adjacenct_direction(piece, :tl)
+    populate_adjacenct_direction(piece, :br)
+    populate_adjacenct_direction(piece, :bl)
     # At the end, check if there are any moves which involve jumps
     # If there are any jumps, then remove any adjacent moves which are not jumps
   end
