@@ -178,3 +178,7 @@ class Board
     return winner
   end
 end
+
+class Pieces
+
+end
