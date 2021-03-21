@@ -177,6 +177,10 @@ class Board
     end
     return winner
   end
+
+  def find_by_id(id)
+    
+  end
 end
 
 class Pieces
