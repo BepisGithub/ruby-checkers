@@ -196,7 +196,7 @@ class Pieces
     @adjacent_moves = {}
   end
 
-  def populate_adjacent_moves
+  def populate_adjacent_moves(board)
 
   end
 end
