@@ -302,7 +302,8 @@ class Pieces
 end
 
 class Player
-
+  attr_accessor :name
+  
   def initialize(name = nil)
     get_name if name.nil?
   end
