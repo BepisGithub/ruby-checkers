@@ -180,6 +180,7 @@ class Board
 end
 
 class Pieces
+  attr_accessor :id, :owner, :king, :move_up, :move_down
 
   def initialize(id, owner, king = false, move_up)
     @id = id
