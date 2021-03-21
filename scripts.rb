@@ -247,6 +247,11 @@ class Board
     linked_node = find_by_coord(coordinates)
     linked_node.data.occupant = occupant
   end
+
+  def occupant_remover(coordinates)
+    linked_node = find_by_coord(coordinates)
+    linked_node.data.occupant = nil
+  end
 end
 
 class Pieces
