@@ -193,5 +193,6 @@ class Pieces
       @move_up = move_up
       @move_down = !move_up
     end
+    @adjacent_moves = {}
   end
 end
