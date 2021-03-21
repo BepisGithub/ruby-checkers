@@ -218,6 +218,7 @@ class Board
       break unless Board.within_bounds?(diagonal_check_coord)
       
       linked_diagonal_node = find_by_coord(diagonal_check_coord)
+      break unless dark_spots.include?(linked_diagonal_node)
       # If the spot is empty, add the move to the adjacency list (the hash)
       if linked_diagonal_node.data.occupant.nil?
         piece.adjacent_moves[direction] = Move.new(linked_diagonal_node)
@@ -237,8 +238,6 @@ class Board
     populate_adjacenct_direction(piece, :tl)
     populate_adjacenct_direction(piece, :br)
     populate_adjacenct_direction(piece, :bl)
-    # At the end, check if there are any moves which involve jumps
-    # If there are any jumps, then remove any adjacent moves which are not jumps
   end
 end
 
