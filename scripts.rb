@@ -177,6 +177,12 @@ class Board
     end
     return winner
   end
+
+  def find_by_id(id)
+    nodes = @graph.get_occupied_dark_spots
+    nodes.select { |node| node.data.occupant.id == id }
+    return nodes[0]
+  end
 end
 
 class Pieces
