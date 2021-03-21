@@ -193,46 +193,47 @@ class Board
   end
 
   def populate_adjacenct_direction(piece, direction)
-
-  end
-
-  def populate_adjacency_list(piece)
-    # Some how make this into a function that you can pass an offset to
-    # So that you don't have to write a bunch of lines of code that do almost exactly the same thing
-    # with the exception being they check up instead of down, and top right instead of top left etc
     piece_linked_node = find_by_id(piece.id)
     dark_spots = get_dark_spots
+    case direction
+    when :tr
+      x_shift = 1
+      y_shift = 1
+    when :tl
+      x_shift = -1
+      y_shift = 1
+    when :br
+      x_shift = 1
+      y_shift = -1
+    when :bl
+      x_shift = -1
+      y_shift = -1
+    end
+
     if piece.move_up
       # Check the spots that are directly up (top right and top left)
       x_coord = piece_linked_node.data.coordinate[0]
       y_coord = piece_linked_node.data.coordinate[1]
-      top_right_coords = [x_coord + 1, y_coord + 1]
-      if Board.within_bounds?(top_right_coords)
-        linked_top_right_node = find_by_coord(top_right_coords)
-        # If the spot is empty, add the move to the adjacency list (the hash)
-        if linked_top_right_node.data.occupant.nil?
-          piece.adjacent_moves[:tr] = Move.new(linked_top_right_node)
-        else
-          # However, if the spot is occupied then we need to check for the possibility of a jump
-          # Jumping is mandatory, if you can jump then you must
-          jump_top_right_coords = top_right_coords.map { |coord| coord + 1 }
-          break unless Board.within_bounds?(jump_top_right_coords)
-
-          jump_tr_linked_node = find_by_coord(jump_top_right_coords)
-          piece.adjacent_moves[:tr] = Move.new(jump_tr_linked_node, linked_top_right_node.occupant)
-        end
+      diagonal_check_coord = [x_coord + x_shift, y_coord + y_shift]
+      break unless Board.within_bounds?(diagonal_check_coord)
+      
+      linked_diagonal_node = find_by_coord(diagonal_check_coord)
+      # If the spot is empty, add the move to the adjacency list (the hash)
+      if linked_diagonal_node.data.occupant.nil?
+        piece.adjacent_moves[direction] = Move.new(linked_diagonal_node)
+      else
+        # However, if the spot is occupied then we need to check for the possibility of a jump
+        # Jumping is mandatory, if you can jump then you must
+        jump_diagonal_coords = [diagonal_check_coord[0] + x_shift, diagonal_check_coord[1] + y_shift] # REFACTOR
+        break unless Board.within_bounds?(jump_diagonal_coords)
+        jump_diagonal_linked_node = find_by_coord(jump_diagonal_coords)
+        piece.adjacent_moves[direction] = Move.new(jump_diagonal_linked_node, linked_diagonal_node.occupant)
       end
-      top_left_coords = [x_coord - 1, y_coord + 1]
-      if Board.within_bounds?(top_left_coords)
-        linked_top_left_node = find_by_coord(top_left_coords)
-      end
-      # Multi stage jumps are not a concern because if the move including the first stage of
-      # a multi stage jump is attempted, after the jump is actually performed (by a future board move piece method)
-      # then the adjacency list will be recalculated for all the nodes, then the same situation occurs where if a move can be made then it must
-    elsif piece.move_down
-
     end
+  end
 
+  def populate_adjacency_list(piece)
+    
     # At the end, check if there are any moves which involve jumps
     # If there are any jumps, then remove any adjacent moves which are not jumps
   end
