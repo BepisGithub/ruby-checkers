@@ -166,4 +166,8 @@ class Board
       end
     end
   end
+
+  def won?
+
+  end
 end
