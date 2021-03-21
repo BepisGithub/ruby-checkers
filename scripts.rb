@@ -302,10 +302,12 @@ class Pieces
 end
 
 class Player
-  attr_accessor :name
+  attr_accessor :name, :active, :won
 
   def initialize(name = nil)
     @name = name unless name.nil?
+    @active = false
+    @won = false
   end
 
   def get_name
