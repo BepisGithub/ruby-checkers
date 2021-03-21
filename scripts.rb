@@ -195,4 +195,8 @@ class Pieces
     end
     @adjacent_moves = {}
   end
+
+  def populate_adjacent_moves
+
+  end
 end
