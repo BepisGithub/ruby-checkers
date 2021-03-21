@@ -217,7 +217,7 @@ class Board
 
     linked_diagonal_node = find_by_coord(diagonal_check_coord)
     return unless dark_spots.include?(linked_diagonal_node)
-    
+
     # If the spot is empty, add the move to the adjacency list (the hash)
     if linked_diagonal_node.data.occupant.nil?
       piece.adjacent_moves[direction] = Move.new(linked_diagonal_node)
@@ -233,10 +233,14 @@ class Board
   end
 
   def populate_adjacency_list(piece)
-    populate_adjacenct_direction(piece, :tr)
-    populate_adjacenct_direction(piece, :tl)
-    populate_adjacenct_direction(piece, :br)
-    populate_adjacenct_direction(piece, :bl)
+    if piece.move_up
+      populate_adjacenct_direction(piece, :tr)
+      populate_adjacenct_direction(piece, :tl)
+    end
+    if piece.move_down
+      populate_adjacenct_direction(piece, :br)
+      populate_adjacenct_direction(piece, :bl)
+    end
   end
 end
 
