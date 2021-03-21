@@ -187,7 +187,19 @@ class Board
   end
 
   def populate_adjacency_list(piece)
-    
+    linked_node = find_by_id(piece.id)
+    dark_spots = get_dark_spots
+    if piece.move_up
+      # Check the spots that are directly up (top right and top left)
+      # If the spot is empty, add the move to the adjacency list (the hash)
+      # However, if the spot is occupied then we need to check for the possibility of a jump
+      # Jumping is mandatory, if you can jump then you must
+      # Multi stage jumps are not a concern because if the move including the first stage of
+      # a multi stage jump is attempted, after the jump is actually performed (by a future board move piece method)
+      # then the adjacency list will be recalculated for all the nodes, then the same situation occurs where if a move can be made then it must
+    elsif piece.move_down
+
+    end
   end
 end
 
