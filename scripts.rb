@@ -244,6 +244,7 @@ class Board
   end
 
   def occupy(coordinates, occupant)
+    return 'error' unless Board.within_bounds?(coordinates)
     linked_node = find_by_coord(coordinates)
     linked_node.data.occupant = occupant
     occupied_spots = get_occupied_dark_spots
@@ -253,6 +254,7 @@ class Board
   end
 
   def occupant_remover(coordinates)
+    return 'error' unless Board.within_bounds?(coordinates)
     linked_node = find_by_coord(coordinates)
     linked_node.data.occupant = nil
     occupied_spots = get_occupied_dark_spots
@@ -263,7 +265,9 @@ class Board
 
   def remove_by_id(id)
     occupied_dark_spots = get_occupied_dark_spots
-    occupied_dark_spots.select { |spot| spot.data.occupant.id == id }
+    occupied_dark_spots.select! { |spot| spot.data.occupant.id == id }
+    return 'error' if occupied_dark_spots.empty?
+    
     popped_occupant = occupied_dark_spots[0].occupant
     occupied_dark_spots[0].occupant = nil
     occupied_spots = get_occupied_dark_spots
