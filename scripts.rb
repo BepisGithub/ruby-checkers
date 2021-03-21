@@ -300,3 +300,11 @@ class Pieces
     @adjacent_moves = {}
   end
 end
+
+class Player
+
+  def initialize(name = nil)
+    get_name if name.nil?
+  end
+
+end
