@@ -181,7 +181,7 @@ end
 
 class Pieces
 
-  def initialize
+  def initialize(id, owner, king = false, move_up)
 
   end
 end
