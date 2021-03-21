@@ -49,3 +49,12 @@ describe Board do
     end
   end
 end
+
+describe Player do
+  describe 'name holding' do
+    it 'holds the name you passed in' do
+      player = Player.new('dave')
+      expect(player.name).to eql('dave')
+    end
+  end
+end
