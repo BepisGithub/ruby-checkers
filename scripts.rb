@@ -193,6 +193,9 @@ class Board
   end
 
   def populate_adjacency_list(piece)
+    # Some how make this into a function that you can pass an offset to
+    # So that you don't have to write a bunch of lines of code that do almost exactly the same thing
+    # with the exception being they check up instead of down, and top right instead of top left etc
     piece_linked_node = find_by_id(piece.id)
     dark_spots = get_dark_spots
     if piece.move_up
