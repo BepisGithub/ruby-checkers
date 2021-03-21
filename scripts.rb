@@ -168,6 +168,13 @@ class Board
   end
 
   def won?
-
+    nodes = @graph.get_occupied_dark_spots
+    first_person_on_list = nodes[0].data.occupant.owner
+    winner = true
+    nodes.each do |node|
+      winner = false if node.data.occupant.owner != first_person_on_list
+      break if node.data.occupant.owner != first_person_on_list
+    end
+    return winner
   end
 end
