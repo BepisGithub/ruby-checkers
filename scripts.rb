@@ -192,7 +192,7 @@ class Board
     return nodes[0]
   end
 
-  def populate_adjacenct_direction()
+  def populate_adjacenct_direction(piece, direction)
 
   end
 
