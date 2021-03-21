@@ -57,8 +57,13 @@ describe Player do
       expect(player.name).to eql('dave')
     end
     it 'holds nil if not passed a name' do
-      player = Player.new()
+      player = Player.new
       expect(player.name.nil?).to be true
+    end
+    it 'gets name if called without being passed a name initially' do
+      player = Player.new
+      player.get_name
+      expect(player.name.nil?).to be false
     end
   end
 end
