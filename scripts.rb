@@ -183,6 +183,10 @@ class Board
     nodes.select { |node| node.data.occupant.id == id }
     return nodes[0]
   end
+
+  def populate_adjacency_list(piece)
+    
+  end
 end
 
 class Pieces
