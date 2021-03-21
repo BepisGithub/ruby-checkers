@@ -260,6 +260,15 @@ class Board
     occupied_dark_spots[0].occupant = nil
     return popped_occupant
   end
+
+  def move_by_id(id, coordinates)
+    occupant = remove_by_id(id)
+    dark_spots = get_dark_spots
+    return 'error out of bounds ' unless Board.within_bounds?(coordinates)
+    dark_spot = dark_spots.select { |spot| spot.data.coordinate == coordinates }
+    dark_spot = dark_spot[0]
+    dark_spot.data.occupant = occupant
+  end
 end
 
 class Pieces
