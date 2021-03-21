@@ -243,8 +243,9 @@ class Board
     end
   end
 
-  def occupy(coordinates)
-    
+  def occupy(coordinates, occupant)
+    linked_node = find_by_coord(coordinates)
+    linked_node.data.occupant = occupant
   end
 end
 
