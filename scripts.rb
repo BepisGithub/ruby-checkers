@@ -186,6 +186,10 @@ class Board
     return nodes[0]
   end
 
+  def find_by_coord(coord_array)
+    
+  end
+
   def populate_adjacency_list(piece)
     linked_node = find_by_id(piece.id)
     dark_spots = get_dark_spots
