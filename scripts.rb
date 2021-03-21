@@ -302,12 +302,13 @@ class Pieces
 end
 
 class Player
-  attr_accessor :name, :active, :won
+  attr_accessor :name, :active, :won, :pieces_list
 
   def initialize(name = nil)
     @name = name unless name.nil?
     @active = false
     @won = false
+    @pieces_list = LinkedList.new
   end
 
   def get_name
