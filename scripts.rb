@@ -129,6 +129,8 @@ class Board
 
   def display
     puts '--------------------'
+    dark_occupant = ['⬛']
+    light_occupant = [' ']
     graph_nodes = @graph.traverse
     y_coordinate_counter = graph_nodes[0].data.coordinate[1]
     graph_nodes.each do |linked_node|
@@ -142,9 +144,9 @@ class Board
           print ["#{display_array[0]}#{display_array[1]}#{display_array[2]}"]
         else
           if linked_node.data.dark
-            print ['⬛']
+            print dark_occupant
           else
-            print [' ']
+            print light_occupant
           end
         end
       else
@@ -158,9 +160,9 @@ class Board
           print ["#{display_array[0]}#{display_array[1]}#{display_array[2]}"]
         else
           if linked_node.data.dark
-            print ['⬛']
+            print dark_occupant
           else
-            print [' ']
+            print light_occupant
           end
         end
       end
