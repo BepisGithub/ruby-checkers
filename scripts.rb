@@ -242,6 +242,10 @@ class Board
       populate_adjacenct_direction(piece, :bl)
     end
   end
+
+  def occupy(coordinates)
+    
+  end
 end
 
 class Pieces
