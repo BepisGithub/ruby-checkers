@@ -209,27 +209,26 @@ class Board
       x_shift = -1
       y_shift = -1
     end
+    x_coord = piece_linked_node.data.coordinate[0]
+    y_coord = piece_linked_node.data.coordinate[1]
+    diagonal_check_coord = [x_coord + x_shift, y_coord + y_shift]
+    # REFACTOR THE RETURN STATEMENT THEY MIGHT NOT WORK
+    return unless Board.within_bounds?(diagonal_check_coord)
 
-    if piece.move_up
-      # Check the spots that are directly up (top right and top left)
-      x_coord = piece_linked_node.data.coordinate[0]
-      y_coord = piece_linked_node.data.coordinate[1]
-      diagonal_check_coord = [x_coord + x_shift, y_coord + y_shift]
-      break unless Board.within_bounds?(diagonal_check_coord)
-      
-      linked_diagonal_node = find_by_coord(diagonal_check_coord)
-      break unless dark_spots.include?(linked_diagonal_node)
-      # If the spot is empty, add the move to the adjacency list (the hash)
-      if linked_diagonal_node.data.occupant.nil?
-        piece.adjacent_moves[direction] = Move.new(linked_diagonal_node)
-      else
-        # However, if the spot is occupied then we need to check for the possibility of a jump
-        # Jumping is mandatory, if you can jump then you must
-        jump_diagonal_coords = [diagonal_check_coord[0] + x_shift, diagonal_check_coord[1] + y_shift] # REFACTOR
-        break unless Board.within_bounds?(jump_diagonal_coords)
-        jump_diagonal_linked_node = find_by_coord(jump_diagonal_coords)
-        piece.adjacent_moves[direction] = Move.new(jump_diagonal_linked_node, linked_diagonal_node.occupant)
-      end
+    linked_diagonal_node = find_by_coord(diagonal_check_coord)
+    return unless dark_spots.include?(linked_diagonal_node)
+    
+    # If the spot is empty, add the move to the adjacency list (the hash)
+    if linked_diagonal_node.data.occupant.nil?
+      piece.adjacent_moves[direction] = Move.new(linked_diagonal_node)
+    else
+      # However, if the spot is occupied then we need to check for the possibility of a jump
+      # Jumping is mandatory, if you can jump then you must
+      jump_diagonal_coords = [diagonal_check_coord[0] + x_shift, diagonal_check_coord[1] + y_shift] # REFACTOR
+      return unless Board.within_bounds?(jump_diagonal_coords)
+
+      jump_diagonal_linked_node = find_by_coord(jump_diagonal_coords)
+      piece.adjacent_moves[direction] = Move.new(jump_diagonal_linked_node, linked_diagonal_node.occupant)
     end
   end
 
