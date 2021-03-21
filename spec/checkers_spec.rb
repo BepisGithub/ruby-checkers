@@ -42,4 +42,10 @@ describe Board do
       expect(working).to be true
     end
   end
+  describe '#display' do
+    it 'presents the board in a human readable format' do
+      board = Board.new
+      board.display
+    end
+  end
 end

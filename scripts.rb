@@ -128,6 +128,42 @@ class Board
   end
 
   def display
-
+    puts ' '
+    graph_nodes = @graph.traverse
+    y_coordinate_counter = graph_nodes[0].data.coordinate[1]
+    graph_nodes.each do |linked_node|
+      if y_coordinate_counter == linked_node.data.coordinate[1]
+        # print linked_node.data.occupant.to_s
+        if linked_node.data.occupant # There is a piece that needs to be displayed
+          display_array = []
+          display_array.push(linked_node.data.occupant.owner)
+          linked_node.data.occupant.king ? display_array.push('K') : display_array.push('M')
+          display_array.push(linked_node.data.occupant.id)
+          print ["#{display_array[0]}#{display_array[1]}#{display_array[2]}"]
+        else
+          if linked_node.data.dark
+            print ['⬛']
+          else
+            print [' ']
+          end
+        end
+      else
+        y_coordinate_counter = linked_node.data.coordinate[1]
+        puts ' '
+        if linked_node.data.occupant # There is a piece that needs to be displayed
+          display_array = []
+          display_array.push(linked_node.data.occupant.owner)
+          linked_node.data.occupant.king ? display_array.push('K') : display_array.push('M')
+          display_array.push(linked_node.data.occupant.id)
+          print ["#{display_array[0]}#{display_array[1]}#{display_array[2]}"]
+        else
+          if linked_node.data.dark
+            print ['⬛']
+          else
+            print [' ']
+          end
+        end
+      end
+    end
   end
 end
