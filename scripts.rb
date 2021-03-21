@@ -307,4 +307,10 @@ class Player
     get_name if name.nil?
   end
 
+  def get_name
+    puts 'What\'s your name? '
+    name = gets.chomp
+    @name = name
+    puts "Hey, #{name}"
+  end
 end
