@@ -187,7 +187,9 @@ class Board
   end
 
   def find_by_coord(coord_array)
-    
+    nodes = @graph.traverse
+    nodes.select { |node| node.data.coordinate == coord_array}
+    return nodes[0]
   end
 
   def populate_adjacency_list(piece)
