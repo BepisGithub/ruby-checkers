@@ -226,7 +226,7 @@ class Board
     x_coord = piece_linked_node.data.coordinate[0]
     y_coord = piece_linked_node.data.coordinate[1]
     diagonal_check_coord = [x_coord + x_shift, y_coord + y_shift]
-    # REFACTOR THE RETURN STATEMENT THEY MIGHT NOT WORK
+    # FIX: THE JUMP IS not working
     return unless Board.within_bounds?(diagonal_check_coord)
 
     linked_diagonal_node = find_by_coord(diagonal_check_coord)
@@ -243,6 +243,8 @@ class Board
       return unless Board.within_bounds?(jump_diagonal_coords)
 
       jump_diagonal_linked_node = find_by_coord(jump_diagonal_coords)
+      return unless dark_spots.include?(jump_diagonal_linked_node)
+
       piece.adjacent_moves[direction] = Move.new(jump_diagonal_linked_node, linked_diagonal_node.data.occupant)
     end
   end
