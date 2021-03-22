@@ -319,9 +319,6 @@ class Board
       shifted_value = (player2_pieces.shift).data
       occupy(linked_spot.data.coordinate, shifted_value)
     end
-    d = get_dark_spots
-    c = get_unoccupied_dark_spots
-    pieces = get_occupied_dark_spots
   end
 end
 
@@ -399,8 +396,9 @@ class Player
       puts 'Write the y coordinate of the piece you want to get'
       y_choice = gets.chomp.to_i until y_choice <= 8 && y_choice.positive? # FIX later
       choice_node = board.find_by_coord([x_choice, y_choice])
-      puts 'Invalid, try again' if choice_node.data.occupant.nil?
-      break unless choice_node.data.occupant.nil?
+      puts 'Invalid, try again' if choice_node.data.occupant.nil? || choice_node.data.occupant.owner.name != @name
+      # choice_node = nil if choice_node.data.occupant.owner.name != @name # HACK
+      break unless choice_node.data.occupant.nil? || choice_node.data.occupant.owner.name != @name # HACK
     end
     piece = choice_node.data.occupant
     return nil if piece.nil?
