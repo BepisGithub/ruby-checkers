@@ -425,4 +425,13 @@ class Game
     @board.setup_board(down_moving_player, up_moving_player)
     @board.populate_all_pieces_adjacency_list
   end
+
+  def play
+    @player1.active ? active = @player1 : active = @player2
+    round(active)
+  end
+
+  def round(active)
+    
+  end
 end
