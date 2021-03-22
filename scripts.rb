@@ -317,4 +317,15 @@ class Player
     @name = name
     puts "Hey, #{name}"
   end
+
+  def get_choice
+    # Need to check the pieces that can jump, if any
+    # Other moves must be discarded if a jump can be made
+
+    # List their IDs
+
+    # Ask which ID they want to move
+
+    # Ask the direction they want to move the piece in e.g. tr, tl, br, bl
+  end
 end
