@@ -139,12 +139,13 @@ class Board
       if y_coordinate_counter == linked_node.data.coordinate[1]
         # print linked_node.data.occupant.to_s
         if linked_node.data.occupant # There is a piece that needs to be displayed
-          display_array = []
-          name = linked_node.data.occupant.owner.name
-          display_array.push(name)
-          linked_node.data.occupant.king ? display_array.push('K') : display_array.push('M')
-          display_array.push(linked_node.data.occupant.id)
-          print ["#{display_array[0]}#{display_array[1]}#{display_array[2]}"]
+          # display_array = []
+          # name = linked_node.data.occupant.owner.name
+          # display_array.push(name)
+          # linked_node.data.occupant.king ? display_array.push('K') : display_array.push('M')
+          # display_array.push(linked_node.data.occupant.id)
+          # print ["#{display_array[0]}#{display_array[1]}#{display_array[2]}"]
+          print linked_node.data.occupant.display_symbol
         else
           if linked_node.data.dark
             print dark_occupant
@@ -156,12 +157,13 @@ class Board
         y_coordinate_counter = linked_node.data.coordinate[1]
         puts ' '
         if linked_node.data.occupant # There is a piece that needs to be displayed
-          display_array = []
-          name = linked_node.data.occupant.owner.name
-          display_array.push(name)
-          linked_node.data.occupant.king ? display_array.push('K') : display_array.push('M')
-          display_array.push(linked_node.data.occupant.id)
-          print ["#{display_array[0]}#{display_array[1]}#{display_array[2]}"]
+          # display_array = []
+          # name = linked_node.data.occupant.owner.name
+          # display_array.push(name)
+          # linked_node.data.occupant.king ? display_array.push('K') : display_array.push('M')
+          # display_array.push(linked_node.data.occupant.id)
+          # print ["#{display_array[0]}#{display_array[1]}#{display_array[2]}"]
+          print linked_node.data.occupant.display_symbol
         else
           if linked_node.data.dark
             print dark_occupant
@@ -337,18 +339,19 @@ class Pieces
       @move_down = !move_up
     end
     @adjacent_moves = {}
-    @display_symbol = 'nil'
+    @display_symbol = owner.piece_symbol
   end
 end
 
 class Player
-  attr_accessor :name, :active, :won, :pieces_list
+  attr_accessor :name, :active, :won, :pieces_list, :piece_symbol
 
   def initialize(name = nil)
     @name = name unless name.nil?
     @active = false
     @won = false
     @pieces_list = LinkedList.new
+    @piece_symbol
   end
 
   def get_name
@@ -426,6 +429,8 @@ class Game
     @player1.get_name
     puts 'Player 2!'
     @player2.get_name
+    @player1.piece_symbol = ['⛀']
+    @player2.piece_symbol = ['⛂']
     @board = Board.new
     @board.display
     rand(1..10) % 2 ? @player1.active = true : @player2.active = true
