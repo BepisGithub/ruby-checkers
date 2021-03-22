@@ -374,12 +374,16 @@ class Player
       move_choice = gets.chomp until move_choice is_a? String
       case move_choice
       when 'tr'
+        move_choice = :tr
         break
       when 'tl'
+        move_choice = :tr
         break
       when 'bl'
+        move_choice = :tr
         break
       when 'br'
+        move_choice = :tr
         break
       else
         move_choice = nil
@@ -437,7 +441,9 @@ class Game
   def round(active)
     move_choice = active.get_choice # returns an array with the id and the direction choice
     # find the piece by id
+    piece = @board.find_by_id(move_choice[0])
     # check the direction choice
+    
     # if it does not involve a jump, make the move then switch active states
     # else if it does involve a jump
     #   remove the jumped piece from the board (find the jumped piece using the move item)
