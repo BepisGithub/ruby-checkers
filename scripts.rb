@@ -415,7 +415,7 @@ class Game
       active.pieces_list.append(LinkedNode.new(Pieces.new((id + 1), active, move_up)))
       # The piece will take the id, the owner and the direction to move (which will be the opposite the two players)
     end
-    if @player1.pieces_list.head.data.move_down 
+    if @player1.pieces_list.head.data.move_down
       down_moving_player = @player1
       up_moving_player = @player2
     else
@@ -429,9 +429,21 @@ class Game
   def play
     @player1.active ? active = @player1 : active = @player2
     round(active)
+    # check for a return value indicating a win
+    # if no win switch active players
+    # repeat
   end
 
   def round(active)
-    active.get_choice
+    move_choice = active.get_choice # returns an array with the id and the direction choice
+    # find the piece by id
+    # check the direction choice
+    # if it does not involve a jump, make the move then switch active states
+    # else if it does involve a jump
+    #   remove the jumped piece from the board (find the jumped piece using the move item)
+    #   recalculate adjacency list (the other board methods should do this automatically)
+    #   repeat until a jump cant be made by the piece that jumped initially (keep track with id)
+
+    # if win then set winner and break
   end
 end
