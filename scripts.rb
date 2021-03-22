@@ -407,5 +407,13 @@ class Game
       active.pieces_list.append(LinkedNode.new(Pieces.new((id + 1), active, move_up)))
       # The piece will take the id, the owner and the direction to move (which will be the opposite the two players)
     end
+    if @player1.pieces_list.head.data.move_down 
+      down_moving_player = @player1
+      up_moving_player = @player2
+    else
+      down_moving_player = @player2
+      up_moving_player = @player1
+    end
+    @board.setup_board(down_moving_player, up_moving_player)
   end
 end
