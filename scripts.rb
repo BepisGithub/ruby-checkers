@@ -324,15 +324,19 @@ class Player
     pieces = @pieces_list.traverse
     jump_pieces = []
     pieces.each do |piece|
-      piece.adjacent_moves.each do |k, v|
+      piece.data.adjacent_moves.each do |k, v|
         jump_pieces.push(piece) unless v.jumped_piece.nil?
       end
     end
     jump_pieces.empty? ? pieces_list_to_use = pieces : pieces_list_to_use = jump_pieces
     # List their IDs
-    
+    puts 'Here are the IDs of the pieces you can move'
+    pieces_list_to_use.each do |piece|
+      print piece.data.id
+    end
     # Ask which ID they want to move
-
+    puts 'Which ID do you want to use? '
+    answer = gets.chomp until answer.is_a? Integer
     # Ask the direction they want to move the piece in e.g. tr, tl, br, bl
   end
 end
