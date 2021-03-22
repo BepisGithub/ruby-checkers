@@ -172,7 +172,7 @@ class Board
   def won?
     nodes = @graph.get_occupied_dark_spots
     first_person_on_list = nodes[0].data.occupant.owner
-    winner = true
+    winner = node.data.occupant.owner
     nodes.each do |node|
       winner = false if node.data.occupant.owner != first_person_on_list
       break if node.data.occupant.owner != first_person_on_list
@@ -438,26 +438,46 @@ class Game
 
   def play
     @player1.active ? active = @player1 : active = @player2
-    round(active)
     # check for a return value indicating a win
+    result = round(active)
+    while result == false
     # if no win switch active players
     # repeat
+      if @player1.active
+        @player1.active = false
+        @player2.active = true
+        active = @player2
+      else
+        @player1.active = true
+        @player2.active = false
+        active = @player1
+      end
+      result = round(active)
+    end
   end
 
   def round(active)
     move_choice = active.get_choice # returns an array with the id and the direction choice
     id_choice = move_choice[0]
     move_choice = move_choice[1]
+
     # find the piece by id
     piece = @board.find_by_id(id_choice)
+    move = piece.adjacent_moves[move_choice]
+    
     # check the direction choice
-    piece.adjacent_moves[move_choice]
-    # if it does not involve a jump, make the move then switch active states
-    # else if it does involve a jump
-    #   remove the jumped piece from the board (find the jumped piece using the move item)
-    #   recalculate adjacency list (the other board methods should do this automatically)
-    #   repeat until a jump cant be made by the piece that jumped initially (keep track with id)
-
+    if move.jumped_piece.nil?
+      # if it does not involve a jump, make the move
+      @board.move_by_id(id_choice, move.end_spot.data.coordinate)
+    else
+      # else if it does involve a jump
+      # remove the jumped piece from the board (find the jumped piece using the move item)
+      @board.remove_by_id(move.jumped_piece.id)
+      # recalculate adjacency list (the other board methods should do this automatically)
+      # TODO: FIX TO ALLOW MULTI LEVEL JUMPS
+      # repeat until a jump cant be made by the piece that jumped initially (keep track with id)
+    end
+    @board.won?
     # if win then set winner and break
   end
 end
