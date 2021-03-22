@@ -361,32 +361,35 @@ class Player
     pieces_list_to_use.each do |piece|
       print piece.data.id
     end
-    # Ask which ID they want to move
-    puts "Which ID do you want to use? #{name}"
-    id_choice = gets.chomp until answer.is_a? Integer
-    # Ask the direction they want to move the piece in e.g. tr, tl, br, bl
-    # POTENTIAL BUG: needs to display only the valid choices
-    pieces.select! { |piece| piece.id == id_choice }
-    pieces = pieces[0]
+    loop do
+      # Ask which ID they want to move
+      puts "Which ID do you want to use? #{name}"
+      id_choice = gets.chomp until answer.is_a? Integer
+      # Ask the direction they want to move the piece in e.g. tr, tl, br, bl
+      piece = pieces.select { |piece| piece.id == id_choice }
+      piece = piece[0]
+      break unless piece.adjacent_moves[:tr].nil? && piece.adjacent_moves[:tl].nil? && piece.adjacent_moves[:br].nil? && piece.adjacent_moves[:bl].nil?
+    end
+
     puts 'Which direction do you want to move the piece in?'
-    puts 'Top right? (type tr)' unless pieces[:tr].nil?
-    puts 'Top left? (type tl)' unless pieces[:tl].nil?
-    puts 'Bottom right? (type br)' unless pieces[:br].nil?
-    puts 'Bottom left? (type bl)' unless pieces[:bl].nil?
+    puts 'Top right? (type tr)' unless piece.adjacent_moves[:tr].nil?
+    puts 'Top left? (type tl)' unless piece.adjacent_moves[:tl].nil?
+    puts 'Bottom right? (type br)' unless piece.adjacent_moves[:br].nil?
+    puts 'Bottom left? (type bl)' unless piece.adjacent_moves[:bl].nil?
     loop do
       move_choice = gets.chomp until move_choice is_a? String
       case move_choice
       when 'tr'
-        move_choice = :tr  unless pieces[:tr].nil?
+        move_choice = :tr unless piece.adjacent_moves[:tr].nil?
         break
       when 'tl'
-        move_choice = :tl  unless pieces[:tl].nil?
+        move_choice = :tl unless piece.adjacent_moves[:tl].nil?
         break
       when 'bl'
-        move_choice = :bl unless pieces[:bl].nil?
+        move_choice = :bl unless piece.adjacent_moves[:bl].nil?
         break
       when 'br'
-        move_choice = :br unless pieces[:br].nil?
+        move_choice = :br unless piece.adjacent_moves[:br].nil?
         break
       else
         move_choice = nil
