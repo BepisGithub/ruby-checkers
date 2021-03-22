@@ -336,7 +336,29 @@ class Player
     end
     # Ask which ID they want to move
     puts 'Which ID do you want to use? '
-    answer = gets.chomp until answer.is_a? Integer
+    id_choice = gets.chomp until answer.is_a? Integer
     # Ask the direction they want to move the piece in e.g. tr, tl, br, bl
+    puts 'Which direction do you want to move the piece in?'
+    puts 'Top right? (type tr)'
+    puts 'Top left? (type tl)'
+    puts 'Bottom right? (type br)'
+    puts 'Bottom left? (type bl)'
+    loop do
+      move_choice = gets.chomp until move_choice is_a? String
+      case move_choice
+      when 'tr'
+        break
+      when 'tl'
+        break
+      when 'bl'
+        break
+      when 'br'
+        break
+      else
+        move_choice = nil
+      end
+      break unless move_choice.nil?
+    end
+    return [id_choice, move_choice]
   end
 end
