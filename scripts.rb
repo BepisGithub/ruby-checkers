@@ -440,10 +440,12 @@ class Game
 
   def round(active)
     move_choice = active.get_choice # returns an array with the id and the direction choice
+    id_choice = move_choice[0]
+    move_choice = move_choice[1]
     # find the piece by id
-    piece = @board.find_by_id(move_choice[0])
+    piece = @board.find_by_id(id_choice)
     # check the direction choice
-    
+    piece.adjacent_moves[move_choice]
     # if it does not involve a jump, make the move then switch active states
     # else if it does involve a jump
     #   remove the jumped piece from the board (find the jumped piece using the move item)
