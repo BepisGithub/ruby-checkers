@@ -369,7 +369,8 @@ class Game
   def initialize
     @player1 = Player.new
     @player2 = Player.new
-
+    player1.get_name
+    player2.get_name
   end
 
 end
