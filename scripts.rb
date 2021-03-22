@@ -362,3 +362,12 @@ class Player
     return [id_choice, move_choice]
   end
 end
+
+class Game
+  attr_accessor
+  
+  def initialize
+
+  end
+
+end
