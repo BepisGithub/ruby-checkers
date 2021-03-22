@@ -362,7 +362,7 @@ class Player
       print piece.data.id
     end
     # Ask which ID they want to move
-    puts 'Which ID do you want to use? '
+    puts "Which ID do you want to use? #{name}"
     id_choice = gets.chomp until answer.is_a? Integer
     # Ask the direction they want to move the piece in e.g. tr, tl, br, bl
     puts 'Which direction do you want to move the piece in?'
@@ -432,6 +432,6 @@ class Game
   end
 
   def round(active)
-    
+    active.get_choice
   end
 end
