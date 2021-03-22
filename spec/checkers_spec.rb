@@ -71,7 +71,8 @@ end
 describe Game do
   describe 'a normal game' do
     it 'works' do
-      Game.new
+      a = Game.new
+      a.play
     end
   end
 end

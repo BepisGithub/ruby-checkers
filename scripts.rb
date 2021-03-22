@@ -1,3 +1,4 @@
+require 'pry'
 class LinkedNode
   attr_accessor :data, :next_node
 
@@ -128,6 +129,7 @@ class Board
   end
 
   def display
+    puts ' '
     puts '--------------------'
     dark_occupant = ['▆']
     light_occupant = [' ']
@@ -138,7 +140,8 @@ class Board
         # print linked_node.data.occupant.to_s
         if linked_node.data.occupant # There is a piece that needs to be displayed
           display_array = []
-          display_array.push(linked_node.data.occupant.owner)
+          name = linked_node.data.occupant.owner.name
+          display_array.push(name)
           linked_node.data.occupant.king ? display_array.push('K') : display_array.push('M')
           display_array.push(linked_node.data.occupant.id)
           print ["#{display_array[0]}#{display_array[1]}#{display_array[2]}"]
@@ -154,7 +157,8 @@ class Board
         puts ' '
         if linked_node.data.occupant # There is a piece that needs to be displayed
           display_array = []
-          display_array.push(linked_node.data.occupant.owner)
+          name = linked_node.data.occupant.owner.name
+          display_array.push(name)
           linked_node.data.occupant.king ? display_array.push('K') : display_array.push('M')
           display_array.push(linked_node.data.occupant.id)
           print ["#{display_array[0]}#{display_array[1]}#{display_array[2]}"]
@@ -181,14 +185,14 @@ class Board
   end
 
   def find_by_id(id)
-    nodes = @graph.get_occupied_dark_spots
-    nodes.select { |node| node.data.occupant.id == id }
+    nodes = get_occupied_dark_spots
+    nodes.select! { |node| node.data.occupant.id == id }
     return nodes[0]
   end
 
   def find_by_coord(coord_array)
     nodes = @graph.traverse
-    nodes.select { |node| node.data.coordinate == coord_array}
+    nodes.select! { |node| node.data.coordinate == coord_array}
     return nodes[0]
   end
 
@@ -252,8 +256,11 @@ class Board
   end
 
   def occupy(coordinates, occupant)
+    puts '-----==0-9-0=9=-09=-09=-09=-09=0'
     return 'error' unless Board.within_bounds?(coordinates)
     linked_node = find_by_coord(coordinates)
+    puts coordinates.to_s
+    puts linked_node.data.coordinate.to_s
     linked_node.data.occupant = occupant
     occupied_spots = get_occupied_dark_spots
     occupied_spots.each do |spot|
@@ -294,24 +301,29 @@ class Board
     dark_spots = get_dark_spots
     player1_pieces = player1.pieces_list.traverse
     player2_pieces = player2.pieces_list.traverse
-    player1.pieces_list.size.times do
-      dark_spots.each do |linked_spot|
-        shifted_value = (player1_pieces.shift).data
-        occupy(linked_spot.data.coordinates, shifted_value)
-      end
+    dark_spots.each do |linked_spot|
+      break if player1_pieces.empty?
+      shifted_value = (player1_pieces.shift).data
+      occupy(linked_spot.data.coordinate, shifted_value)
     end
+    puts '=-==-==-=-=-'
     dark_spots.reverse!
-    player2.pieces_list.size.times do
-      dark_spots.each do |linked_spot|
-        shifted_value = (player2_pieces.shift).data
-        occupy(linked_spot.data.coordinates, shifted_value)
-      end
+    dark_spots.each do |linked_spot|
+      break if player2_pieces.empty?
+      shifted_value = (player2_pieces.shift).data
+      occupy(linked_spot.data.coordinate, shifted_value)
     end
+    d = get_dark_spots
+    c = get_unoccupied_dark_spots
+    pieces = get_occupied_dark_spots
+    puts d.count
+    puts c.count
+    puts pieces.count
   end
 end
 
 class Pieces
-  attr_accessor :id, :owner, :king, :move_up, :move_down, :adjacent_moves
+  attr_accessor :id, :owner, :king, :move_up, :move_down, :adjacent_moves, :display_symbol
 
   def initialize(id, owner, move_up, king = false)
     @id = id
@@ -325,6 +337,7 @@ class Pieces
       @move_down = !move_up
     end
     @adjacent_moves = {}
+    @display_symbol = 'nil'
   end
 end
 
@@ -339,6 +352,7 @@ class Player
   end
 
   def get_name
+    # REFACTOR THIS TO MAKE IT A SYMBOL OTHERWISE THE BOARD IS UGGO AF
     puts 'What\'s your name? '
     name = gets.chomp.capitalize
     @name = name
@@ -359,12 +373,14 @@ class Player
     # List their IDs
     puts 'Here are the IDs of the pieces you can move'
     pieces_list_to_use.each do |piece|
+      print '|'
       print piece.data.id
+      print '|'
     end
     loop do
       # Ask which ID they want to move
       puts "Which ID do you want to use? #{name}"
-      id_choice = gets.chomp until answer.is_a? Integer
+      id_choice = gets.chomp until id_choice.is_a? Integer
       # Ask the direction they want to move the piece in e.g. tr, tl, br, bl
       piece = pieces.select { |piece| piece.id == id_choice }
       piece = piece[0]
@@ -417,7 +433,7 @@ class Game
     @player1.active ? active = @player1 : active = @player2
     move_up = true
     num_of_player_pieces.times do |id|
-      if (id + 1) == 12
+      if (id + 1) == 13
         active == @player1 ? active = @player2 : active = @player1
         move_up = false
       end
@@ -459,6 +475,7 @@ class Game
   end
 
   def round(active)
+    @board.display
     move_choice = active.get_choice # returns an array with the id and the direction choice
     id_choice = move_choice[0]
     move_choice = move_choice[1]
