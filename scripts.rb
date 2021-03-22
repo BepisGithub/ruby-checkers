@@ -406,7 +406,9 @@ class Game
   def initialize
     @player1 = Player.new
     @player2 = Player.new
+    puts 'Player 1!'
     @player1.get_name
+    puts 'Player 2!'
     @player2.get_name
     @board = Board.new
     @board.display
@@ -414,7 +416,7 @@ class Game
     num_of_player_pieces = 24
     @player1.active ? active = @player1 : active = @player2
     move_up = true
-    num_of_player_pieces.each do |id|
+    num_of_player_pieces.times do |id|
       if (id + 1) == 12
         active == @player1 ? active = @player2 : active = @player1
         move_up = false
