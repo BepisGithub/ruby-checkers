@@ -374,6 +374,12 @@ class Game
     @board = Board.new
     @board.display
     rand(1..10) % 2 ? @player1.active = true : @player2.active = true
+    num_of_player_pieces = 12
+    num_of_player_pieces.each do |id|
+      # Create pieces for player 1, then player 2
+      # Each player has a pieces list which is a linked list
+      # Append a piece to the linked list with the ID
+      # The piece will take the id, the owner and the direction to move (which will be the opposite the two players)
+    end
   end
-
 end
