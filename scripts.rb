@@ -423,5 +423,6 @@ class Game
       up_moving_player = @player1
     end
     @board.setup_board(down_moving_player, up_moving_player)
+    populate_all_pieces_adjacency_list
   end
 end
