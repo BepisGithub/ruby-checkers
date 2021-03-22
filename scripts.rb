@@ -369,9 +369,11 @@ class Game
   def initialize
     @player1 = Player.new
     @player2 = Player.new
-    player1.get_name
-    player2.get_name
+    @player1.get_name
+    @player2.get_name
     @board = Board.new
+    @board.display
+    rand(1..10) % 2 ? @player1.active = true : @player2.active = true
   end
 
 end
