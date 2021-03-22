@@ -495,6 +495,7 @@ class Game
 
   def round(active)
     @board.display
+    puts "#{active.name}, your symbol is #{active.piece_symbol}. It's your turn to make a move"
     move_choice = active.get_choice(@board) # returns an array with the id and the direction choice
     id_choice = move_choice[0]
     move_choice = move_choice[1]
