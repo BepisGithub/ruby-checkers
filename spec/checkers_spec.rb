@@ -67,3 +67,11 @@ describe Player do
     end
   end
 end
+
+describe Game do
+  describe 'a normal game' do
+    it 'works' do
+      Game.new
+    end
+  end
+end
