@@ -219,7 +219,8 @@ class Board
     return unless dark_spots.include?(linked_diagonal_node)
 
     # If the spot is empty, add the move to the adjacency list (the hash)
-    if linked_diagonal_node.data.occupant.nil?
+    # The || linked_diagonal_node.data.occupant.owner == piece.owner is a fix for not jumping over the same piece
+    if linked_diagonal_node.data.occupant.nil? || linked_diagonal_node.data.occupant.owner == piece.owner
       piece.adjacent_moves[direction] = Move.new(linked_diagonal_node)
     else
       # However, if the spot is occupied then we need to check for the possibility of a jump
