@@ -321,9 +321,16 @@ class Player
   def get_choice
     # Need to check the pieces that can jump, if any
     # Other moves must be discarded if a jump can be made
-
+    pieces = @pieces_list.traverse
+    jump_pieces = []
+    pieces.each do |piece|
+      piece.adjacent_moves.each do |k, v|
+        jump_pieces.push(piece) unless v.jumped_piece.nil?
+      end
+    end
+    jump_pieces.empty? ? pieces_list_to_use = pieces : pieces_list_to_use = jump_pieces
     # List their IDs
-
+    
     # Ask which ID they want to move
 
     # Ask the direction they want to move the piece in e.g. tr, tl, br, bl
