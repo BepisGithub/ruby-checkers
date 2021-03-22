@@ -185,12 +185,11 @@ class Board
   end
 
   def won?
-    nodes = @graph.get_occupied_dark_spots
+    nodes = get_occupied_dark_spots
     first_person_on_list = nodes[0].data.occupant.owner
-    winner = node.data.occupant.owner
+    winner = first_person_on_list
     nodes.each do |node|
       winner = false if node.data.occupant.owner != first_person_on_list
-      break if node.data.occupant.owner != first_person_on_list
     end
     return winner
   end
@@ -244,7 +243,7 @@ class Board
       return unless Board.within_bounds?(jump_diagonal_coords)
 
       jump_diagonal_linked_node = find_by_coord(jump_diagonal_coords)
-      piece.adjacent_moves[direction] = Move.new(jump_diagonal_linked_node, linked_diagonal_node.occupant)
+      piece.adjacent_moves[direction] = Move.new(jump_diagonal_linked_node, linked_diagonal_node.data.occupant)
     end
   end
 
@@ -267,11 +266,8 @@ class Board
   end
 
   def occupy(coordinates, occupant)
-    puts '-----==0-9-0=9=-09=-09=-09=-09=0'
     return 'error' unless Board.within_bounds?(coordinates)
     linked_node = find_by_coord(coordinates)
-    puts coordinates.to_s
-    puts linked_node.data.coordinate.to_s
     linked_node.data.occupant = occupant
     occupied_spots = get_occupied_dark_spots
     occupied_spots.each do |spot|
@@ -294,8 +290,8 @@ class Board
     occupied_dark_spots.select! { |spot| spot.data.occupant.id == id }
     return 'error' if occupied_dark_spots.empty?
     
-    popped_occupant = occupied_dark_spots[0].occupant
-    occupied_dark_spots[0].occupant = nil
+    popped_occupant = occupied_dark_spots[0].data.occupant
+    occupied_dark_spots[0].data.occupant = nil
     occupied_spots = get_occupied_dark_spots
     occupied_spots.each do |spot|
       populate_adjacency_list(spot.data.occupant)
@@ -317,7 +313,6 @@ class Board
       shifted_value = (player1_pieces.shift).data
       occupy(linked_spot.data.coordinate, shifted_value)
     end
-    puts '=-==-==-=-=-'
     dark_spots.reverse!
     dark_spots.each do |linked_spot|
       break if player2_pieces.empty?
@@ -327,9 +322,6 @@ class Board
     d = get_dark_spots
     c = get_unoccupied_dark_spots
     pieces = get_occupied_dark_spots
-    puts d.count
-    puts c.count
-    puts pieces.count
   end
 end
 
@@ -371,42 +363,56 @@ class Player
     puts "Hey, #{name}"
   end
 
-  def get_choice
-    # REFACTOR: select by coordinates, not id
+  def get_choice(board)
     # Need to check the pieces that can jump, if any
     # Other moves must be discarded if a jump can be made
-    pieces = @pieces_list.traverse
-    jump_pieces = []
-    pieces.each do |piece|
-      piece.data.adjacent_moves.each do |k, v|
-        jump_pieces.push(piece) unless v.jumped_piece.nil?
-      end
-    end
-    jump_pieces.empty? ? pieces_list_to_use = pieces : pieces_list_to_use = jump_pieces
-    # List their IDs
-    puts 'Here are the IDs of the pieces you can move'
-    pieces_list_to_use.each do |piece|
-      print '|'
-      print piece.data.id
-      print '|'
-    end
+    # pieces = @pieces_list.traverse
+    # jump_pieces = []
+    # pieces.each do |piece|
+    #   piece.data.adjacent_moves.each do |k, v|
+    #     jump_pieces.push(piece) unless v.jumped_piece.nil?
+    #   end
+    # end
+    # jump_pieces.empty? ? pieces_list_to_use = pieces : pieces_list_to_use = jump_pieces
+    # # List their IDs
+    # puts 'Here are the IDs of the pieces you can move'
+    # pieces_list_to_use.each do |piece|
+    #   print '|'
+    #   print piece.data.id
+    #   print '|'
+    # end
+    # loop do
+    #   # Ask which ID they want to move
+    #   puts "Which ID do you want to use? #{name}"
+    #   id_choice = gets.chomp until id_choice.is_a? Integer
+    #   # Ask the direction they want to move the piece in e.g. tr, tl, br, bl
+    #   piece = pieces.select { |piece| piece.id == id_choice }
+    #   piece = piece[0]
+    #   break unless piece.adjacent_moves[:tr].nil? && piece.adjacent_moves[:tl].nil? && piece.adjacent_moves[:br].nil? && piece.adjacent_moves[:bl].nil?
+    # end
+    choice_node = nil
     loop do
-      # Ask which ID they want to move
-      puts "Which ID do you want to use? #{name}"
-      id_choice = gets.chomp until id_choice.is_a? Integer
-      # Ask the direction they want to move the piece in e.g. tr, tl, br, bl
-      piece = pieces.select { |piece| piece.id == id_choice }
-      piece = piece[0]
-      break unless piece.adjacent_moves[:tr].nil? && piece.adjacent_moves[:tl].nil? && piece.adjacent_moves[:br].nil? && piece.adjacent_moves[:bl].nil?
+      puts 'Write the x coordinate of the piece you want to get'
+      x_choice = -1
+      y_choice = -1
+      x_choice = gets.chomp.to_i until x_choice <= 8 && x_choice.positive? # FIX later
+      puts 'Write the y coordinate of the piece you want to get'
+      y_choice = gets.chomp.to_i until y_choice <= 8 && y_choice.positive? # FIX later
+      choice_node = board.find_by_coord([x_choice, y_choice])
+      puts 'Invalid, try again' if choice_node.data.occupant.nil?
+      break unless choice_node.data.occupant.nil?
     end
-
+    piece = choice_node.data.occupant
+    return nil if piece.nil?
+    return nil if piece.adjacent_moves.empty?
     puts 'Which direction do you want to move the piece in?'
     puts 'Top right? (type tr)' unless piece.adjacent_moves[:tr].nil?
     puts 'Top left? (type tl)' unless piece.adjacent_moves[:tl].nil?
     puts 'Bottom right? (type br)' unless piece.adjacent_moves[:br].nil?
     puts 'Bottom left? (type bl)' unless piece.adjacent_moves[:bl].nil?
+    move_choice = nil
     loop do
-      move_choice = gets.chomp until move_choice is_a? String
+      move_choice = gets.chomp until move_choice.is_a? String
       case move_choice
       when 'tr'
         move_choice = :tr unless piece.adjacent_moves[:tr].nil?
@@ -425,7 +431,7 @@ class Player
       end
       break unless move_choice.nil?
     end
-    return [id_choice, move_choice]
+    return [piece.id, move_choice]
   end
 end
 
@@ -491,13 +497,13 @@ class Game
 
   def round(active)
     @board.display
-    move_choice = active.get_choice # returns an array with the id and the direction choice
+    move_choice = active.get_choice(@board) # returns an array with the id and the direction choice
     id_choice = move_choice[0]
     move_choice = move_choice[1]
 
     # find the piece by id
     piece = @board.find_by_id(id_choice)
-    move = piece.adjacent_moves[move_choice]
+    move = piece.data.occupant.adjacent_moves[move_choice]
     
     # check the direction choice
     if move.jumped_piece.nil?
@@ -507,6 +513,7 @@ class Game
       # else if it does involve a jump
       # remove the jumped piece from the board (find the jumped piece using the move item)
       @board.remove_by_id(move.jumped_piece.id)
+      @board.move_by_id(id_choice, move.end_spot.data.coordinate)
       # recalculate adjacency list (the other board methods should do this automatically)
       # TODO: FIX TO ALLOW MULTI LEVEL JUMPS
       # repeat until a jump cant be made by the piece that jumped initially (keep track with id)
