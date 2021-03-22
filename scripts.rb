@@ -364,13 +364,14 @@ class Player
 end
 
 class Game
-  attr_accessor :player1, :player2
+  attr_accessor :player1, :player2, :board
 
   def initialize
     @player1 = Player.new
     @player2 = Player.new
     player1.get_name
     player2.get_name
+    @board = Board.new
   end
 
 end
