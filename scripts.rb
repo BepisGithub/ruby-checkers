@@ -243,6 +243,13 @@ class Board
     end
   end
 
+  def populate_all_pieces_adjacency_list
+    occupied = get_occupied_dark_spots
+    occupied.each do |node|
+      populate_adjacency_list(node.data.occupant)
+    end
+  end
+
   def occupy(coordinates, occupant)
     return 'error' unless Board.within_bounds?(coordinates)
     linked_node = find_by_coord(coordinates)
