@@ -281,6 +281,25 @@ class Board
     occupant = remove_by_id(id)
     occupy(coordinates, occupant)
   end
+
+  def setup_board(player1, player2)
+    dark_spots = get_dark_spots
+    player1_pieces = player1.pieces_list.traverse
+    player2_pieces = player2.pieces_list.traverse
+    player1.pieces_list.size.times do
+      dark_spots.each do |linked_spot|
+        shifted_value = (player1_pieces.shift).data
+        occupy(linked_spot.data.coordinates, shifted_value)
+      end
+    end
+    dark_spots.reverse!
+    player2.pieces_list.size.times do
+      dark_spots.each do |linked_spot|
+        shifted_value = (player2_pieces.shift).data
+        occupy(linked_spot.data.coordinates, shifted_value)
+      end
+    end
+  end
 end
 
 class Pieces
