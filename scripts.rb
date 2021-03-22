@@ -365,25 +365,28 @@ class Player
     puts "Which ID do you want to use? #{name}"
     id_choice = gets.chomp until answer.is_a? Integer
     # Ask the direction they want to move the piece in e.g. tr, tl, br, bl
+    # POTENTIAL BUG: needs to display only the valid choices
+    pieces.select! { |piece| piece.id == id_choice }
+    pieces = pieces[0]
     puts 'Which direction do you want to move the piece in?'
-    puts 'Top right? (type tr)'
-    puts 'Top left? (type tl)'
-    puts 'Bottom right? (type br)'
-    puts 'Bottom left? (type bl)'
+    puts 'Top right? (type tr)' unless pieces[:tr].nil?
+    puts 'Top left? (type tl)' unless pieces[:tl].nil?
+    puts 'Bottom right? (type br)' unless pieces[:br].nil?
+    puts 'Bottom left? (type bl)' unless pieces[:bl].nil?
     loop do
       move_choice = gets.chomp until move_choice is_a? String
       case move_choice
       when 'tr'
-        move_choice = :tr
+        move_choice = :tr  unless pieces[:tr].nil?
         break
       when 'tl'
-        move_choice = :tr
+        move_choice = :tl  unless pieces[:tl].nil?
         break
       when 'bl'
-        move_choice = :tr
+        move_choice = :bl unless pieces[:bl].nil?
         break
       when 'br'
-        move_choice = :tr
+        move_choice = :br unless pieces[:br].nil?
         break
       else
         move_choice = nil
