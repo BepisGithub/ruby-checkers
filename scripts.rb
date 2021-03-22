@@ -374,11 +374,18 @@ class Game
     @board = Board.new
     @board.display
     rand(1..10) % 2 ? @player1.active = true : @player2.active = true
-    num_of_player_pieces = 12
+    num_of_player_pieces = 24
+    @player1.active ? active = @player1 : active = @player2
+    move_up = true
     num_of_player_pieces.each do |id|
+      if (id + 1) == 12
+        active == @player1 ? active = @player2 : active = @player1
+        move_up = false
+      end
       # Create pieces for player 1, then player 2
       # Each player has a pieces list which is a linked list
       # Append a piece to the linked list with the ID
+      active.pieces_list.append(LinkedNode.new(Pieces.new((id + 1), active, move_up)))
       # The piece will take the id, the owner and the direction to move (which will be the opposite the two players)
     end
   end
