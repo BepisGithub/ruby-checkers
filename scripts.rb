@@ -135,6 +135,7 @@ class Board
     light_occupant = [' ']
     graph_nodes = @graph.traverse
     y_coordinate_counter = graph_nodes[0].data.coordinate[1]
+    print [y_coordinate_counter]
     graph_nodes.each do |linked_node|
       if y_coordinate_counter == linked_node.data.coordinate[1]
         # print linked_node.data.occupant.to_s
@@ -156,6 +157,7 @@ class Board
       else
         y_coordinate_counter = linked_node.data.coordinate[1]
         puts ' '
+        print [y_coordinate_counter].to_s
         if linked_node.data.occupant # There is a piece that needs to be displayed
           # display_array = []
           # name = linked_node.data.occupant.owner.name
@@ -164,6 +166,7 @@ class Board
           # display_array.push(linked_node.data.occupant.id)
           # print ["#{display_array[0]}#{display_array[1]}#{display_array[2]}"]
           print linked_node.data.occupant.display_symbol
+          
         else
           if linked_node.data.dark
             print dark_occupant
@@ -173,6 +176,12 @@ class Board
         end
       end
     end
+    puts ' '
+    arr = [0]
+    8.times do |i|
+      arr.push([i + 1])
+    end
+    puts arr.to_s
   end
 
   def won?
@@ -363,6 +372,7 @@ class Player
   end
 
   def get_choice
+    # REFACTOR: select by coordinates, not id
     # Need to check the pieces that can jump, if any
     # Other moves must be discarded if a jump can be made
     pieces = @pieces_list.traverse
