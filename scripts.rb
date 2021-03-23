@@ -318,6 +318,31 @@ class Board
     end
     populate_all_pieces_adjacency_list
   end
+
+  def king_check
+    occupied_dark_spots = get_occupied_dark_spots
+    # Check if any are at the edges of the board (y coord 1 or y coord 8)
+    occupied_dark_spots.select! { |linked_spot| linked_spot.data.coordinate[1] == 1 || linked_spot.data.coordinate[1] == 8 }
+    # Reject any kings (because we dont need to make it into a king)
+    occupied_dark_spots.reject! { |linked_spot| linked_spot.data.occupant.king }
+    return nil if occupied_dark_spots.nil?
+    # The pieces that turn into a king at the top have the variable move up as true (bc they spawned at the bottom) and they are at the top (to turn into a king)
+    top_kings = occupied_dark_spots.select { |linked_spot| linked_spot.data.occupant.move_up && linked_spot.data.coordinate[1] == 8 }
+    # A similar check is done for the bottom pieces
+    bottom_kings = occupied_dark_spots.select { |linked_spot| linked_spot.data.occupant.move_down && linked_spot.data.coordinate[1] == 1 }
+
+    # Now to make them into kings
+    top_kings.each do |top_king|
+      top_king.data.occupant.king = true
+      top_king.data.occupant.move_down = true
+      top_king.data.occupant.display_symbol == ['⛀'] ? top_king.data.occupant.display_symbol = ['⛁'] : ['⛃']
+    end
+    bottom_kings.each do |bottom_king|
+      bottom_king.data.occupant.king = true
+      bottom_king.data.occupant.move_up = true
+      bottom_king.data.occupant.display_symbol == ['⛀'] ? top_king.data.occupant.display_symbol = ['⛁'] : ['⛃']
+    end
+  end
 end
 
 class Pieces
@@ -360,10 +385,11 @@ class Player
   def get_choice(board)
     # Need to check the pieces that can jump, if any
     # Other moves must be discarded if a jump can be made
-    all_pieces = @pieces_list.traverse
+    all_pieces = board.get_occupied_dark_spots
+    all_pieces.select! { | linked_spot | linked_spot.data.occupant.owner.name == @name}
     jump_possible = false
     all_pieces.each do |piece|
-      piece.data.adjacent_moves.each do |k, v|
+      piece.data.occupant.adjacent_moves.each do |k, v|
         jump_possible = true unless v.jumped_piece.nil?
       end
       break if jump_possible
@@ -371,7 +397,7 @@ class Player
     # Filtering out non jumps if a jump is possible
     if jump_possible
       all_pieces.each do |piece|
-        piece.data.adjacent_moves.select! { |direction, move| move.jumped_piece } # Possible source of bug
+        piece.data.occupant.adjacent_moves.select! { |direction, move| move.jumped_piece } # Possible source of bug
       end
     end
 
@@ -491,6 +517,7 @@ class Game
   end
 
   def round(active)
+    @board.king_check
     @board.display
     puts "#{active.name}, your symbol is #{active.piece_symbol}. It's your turn to make a move"
     move_choice = active.get_choice(@board) # returns an array with the id and the direction choice
