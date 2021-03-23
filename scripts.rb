@@ -226,27 +226,38 @@ class Board
     x_coord = piece_linked_node.data.coordinate[0]
     y_coord = piece_linked_node.data.coordinate[1]
     diagonal_check_coord = [x_coord + x_shift, y_coord + y_shift]
-    # FIX: THE JUMP IS not working
-    return unless Board.within_bounds?(diagonal_check_coord)
-
     linked_diagonal_node = find_by_coord(diagonal_check_coord)
-    return unless dark_spots.include?(linked_diagonal_node)
+    return if linked_diagonal_node.nil?
+    piece.adjacent_moves[direction] = Move.new(linked_diagonal_node) if linked_diagonal_node.data.occupant.nil?
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    # FIX: THE JUMP IS not working
+    # return unless Board.within_bounds?(diagonal_check_coord)
 
-    # If the spot is empty, add the move to the adjacency list (the hash)
-    # The || linked_diagonal_node.data.occupant.owner == piece.owner is a fix for not jumping over the same piece
-    if linked_diagonal_node.data.occupant.nil? || linked_diagonal_node.data.occupant.owner == piece.owner
-      piece.adjacent_moves[direction] = Move.new(linked_diagonal_node)
-    else
-      # However, if the spot is occupied then we need to check for the possibility of a jump
-      # Jumping is mandatory, if you can jump then you must
-      jump_diagonal_coords = [diagonal_check_coord[0] + x_shift, diagonal_check_coord[1] + y_shift] # REFACTOR
-      return unless Board.within_bounds?(jump_diagonal_coords)
-
-      jump_diagonal_linked_node = find_by_coord(jump_diagonal_coords)
-      return unless dark_spots.include?(jump_diagonal_linked_node)
-
-      piece.adjacent_moves[direction] = Move.new(jump_diagonal_linked_node, linked_diagonal_node.data.occupant)
-    end
+    # linked_diagonal_node = find_by_coord(diagonal_check_coord)
+    # return if linked_diagonal_node.nil?
+    # return unless dark_spots.include?(linked_diagonal_node)
+    # # If the spot is empty, add the move to the adjacency list (the hash)
+    # if linked_diagonal_node.data.occupant.nil?
+    #   piece.adjacent_moves[direction] = Move.new(linked_diagonal_node)
+    # else
+    #   # However, if the spot is occupied then we need to check for the possibility of a jump
+    #   # Jumping is mandatory, if you can jump then you must
+    # end
   end
 
   def populate_adjacency_list(piece)
@@ -271,20 +282,14 @@ class Board
     return 'error' unless Board.within_bounds?(coordinates)
     linked_node = find_by_coord(coordinates)
     linked_node.data.occupant = occupant
-    occupied_spots = get_occupied_dark_spots
-    occupied_spots.each do |spot|
-      populate_adjacency_list(spot.data.occupant)
-    end
+    # populate_all_pieces_adjacency_list
   end
 
   def occupant_remover(coordinates)
     return 'error' unless Board.within_bounds?(coordinates)
     linked_node = find_by_coord(coordinates)
     linked_node.data.occupant = nil
-    occupied_spots = get_occupied_dark_spots
-    occupied_spots.each do |spot|
-      populate_adjacency_list(spot.data.occupant)
-    end
+    # populate_all_pieces_adjacency_list
   end
 
   def remove_by_id(id)
@@ -294,16 +299,14 @@ class Board
     
     popped_occupant = occupied_dark_spots[0].data.occupant
     occupied_dark_spots[0].data.occupant = nil
-    occupied_spots = get_occupied_dark_spots
-    occupied_spots.each do |spot|
-      populate_adjacency_list(spot.data.occupant)
-    end
+    # populate_all_pieces_adjacency_list
     return popped_occupant
   end
 
   def move_by_id(id, coordinates)
     occupant = remove_by_id(id)
     occupy(coordinates, occupant)
+    # populate_all_pieces_adjacency_list
   end
 
   def setup_board(player1, player2)
@@ -321,6 +324,7 @@ class Board
       shifted_value = (player2_pieces.shift).data
       occupy(linked_spot.data.coordinate, shifted_value)
     end
+    populate_all_pieces_adjacency_list
   end
 end
 
@@ -355,7 +359,6 @@ class Player
   end
 
   def get_name
-    # REFACTOR THIS TO MAKE IT A SYMBOL OTHERWISE THE BOARD IS UGGO AF
     puts 'What\'s your name? '
     name = gets.chomp.capitalize
     @name = name
@@ -397,6 +400,7 @@ class Player
       x_choice = gets.chomp.to_i until x_choice <= 8 && x_choice.positive? # FIX later
       puts 'Write the y coordinate of the piece you want to get'
       y_choice = gets.chomp.to_i until y_choice <= 8 && y_choice.positive? # FIX later
+      # binding.pry
       choice_node = board.find_by_coord([x_choice, y_choice])
       puts 'Invalid, try again' if choice_node.data.occupant.nil? || choice_node.data.occupant.owner.name != @name
       # choice_node = nil if choice_node.data.occupant.owner.name != @name # HACK
@@ -491,6 +495,7 @@ class Game
         @player2.active = false
         active = @player1
       end
+      @board.populate_all_pieces_adjacency_list
       result = round(active)
     end
   end
@@ -499,6 +504,9 @@ class Game
     @board.display
     puts "#{active.name}, your symbol is #{active.piece_symbol}. It's your turn to make a move"
     move_choice = active.get_choice(@board) # returns an array with the id and the direction choice
+    while move_choice.nil?
+      move_choice = active.get_choice(@board) # returns an array with the id and the direction choice
+    end
     id_choice = move_choice[0]
     move_choice = move_choice[1]
 
