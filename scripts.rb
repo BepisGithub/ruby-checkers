@@ -208,7 +208,6 @@ class Board
 
   def populate_adjacenct_direction(piece, direction)
     piece_linked_node = find_by_id(piece.id)
-    dark_spots = get_dark_spots
     case direction
     when :tr
       x_shift = 1
@@ -227,24 +226,16 @@ class Board
     y_coord = piece_linked_node.data.coordinate[1]
     diagonal_check_coord = [x_coord + x_shift, y_coord + y_shift]
     linked_diagonal_node = find_by_coord(diagonal_check_coord)
+    jump_coord = [diagonal_check_coord[0] + x_shift, diagonal_check_coord[1] + y_shift]
+    linked_jump_node = find_by_coord(jump_coord)
     return if linked_diagonal_node.nil?
-    piece.adjacent_moves[direction] = Move.new(linked_diagonal_node) if linked_diagonal_node.data.occupant.nil?
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    if linked_diagonal_node.data.occupant.nil?
+      piece_linked_node.data.occupant.adjacent_moves[direction] = Move.new(linked_diagonal_node)
+    elsif linked_jump_node.nil?
+      return nil
+    elsif linked_diagonal_node.data.occupant.owner.name != piece_linked_node.data.occupant.owner.name && linked_jump_node.data.occupant.nil?
+      piece_linked_node.data.occupant.adjacent_moves[direction] = Move.new(linked_jump_node, linked_diagonal_node.data.occupant)
+    end
     # FIX: THE JUMP IS not working
     # return unless Board.within_bounds?(diagonal_check_coord)
 
@@ -261,6 +252,7 @@ class Board
   end
 
   def populate_adjacency_list(piece)
+    piece.adjacent_moves = {}
     if piece.move_up
       populate_adjacenct_direction(piece, :tr)
       populate_adjacenct_direction(piece, :tl)
@@ -476,7 +468,6 @@ class Game
       up_moving_player = @player1
     end
     @board.setup_board(down_moving_player, up_moving_player)
-    @board.populate_all_pieces_adjacency_list
   end
 
   def play
@@ -495,8 +486,8 @@ class Game
         @player2.active = false
         active = @player1
       end
-      @board.populate_all_pieces_adjacency_list
       result = round(active)
+      @board.populate_all_pieces_adjacency_list
     end
   end
 
