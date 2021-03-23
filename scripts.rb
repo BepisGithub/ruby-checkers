@@ -385,6 +385,7 @@ class Player
     choice_node = nil
     loop do
       puts 'Write the x coordinate of the piece you want to get'
+      puts 'If you can make a jump, you must' if jump_possible
       x_choice = -1
       y_choice = -1
       x_choice = gets.chomp.to_i until x_choice <= 8 && x_choice.positive? # FIX later
