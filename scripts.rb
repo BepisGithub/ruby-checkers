@@ -360,30 +360,28 @@ class Player
   def get_choice(board)
     # Need to check the pieces that can jump, if any
     # Other moves must be discarded if a jump can be made
-    # pieces = @pieces_list.traverse
-    # jump_pieces = []
-    # pieces.each do |piece|
-    #   piece.data.adjacent_moves.each do |k, v|
-    #     jump_pieces.push(piece) unless v.jumped_piece.nil?
-    #   end
-    # end
-    # jump_pieces.empty? ? pieces_list_to_use = pieces : pieces_list_to_use = jump_pieces
-    # # List their IDs
-    # puts 'Here are the IDs of the pieces you can move'
-    # pieces_list_to_use.each do |piece|
-    #   print '|'
-    #   print piece.data.id
-    #   print '|'
-    # end
-    # loop do
-    #   # Ask which ID they want to move
-    #   puts "Which ID do you want to use? #{name}"
-    #   id_choice = gets.chomp until id_choice.is_a? Integer
-    #   # Ask the direction they want to move the piece in e.g. tr, tl, br, bl
-    #   piece = pieces.select { |piece| piece.id == id_choice }
-    #   piece = piece[0]
-    #   break unless piece.adjacent_moves[:tr].nil? && piece.adjacent_moves[:tl].nil? && piece.adjacent_moves[:br].nil? && piece.adjacent_moves[:bl].nil?
-    # end
+    all_pieces = @pieces_list.traverse
+    jump_possible = false
+    all_pieces.each do |piece|
+      piece.data.adjacent_moves.each do |k, v|
+        jump_possible = true unless v.jumped_piece.nil?
+      end
+      break if jump_possible
+    end
+    # Filtering out non jumps if a jump is possible
+    if jump_possible
+      all_pieces.each do |piece|
+        piece.data.adjacent_moves.select! { |direction, move| move.jumped_piece } # Possible source of bug
+      end
+    end
+
+
+
+
+
+
+
+
     choice_node = nil
     loop do
       puts 'Write the x coordinate of the piece you want to get'
