@@ -487,6 +487,7 @@ class Game
       end
       result = round(active)
       @board.populate_all_pieces_adjacency_list
+      save_game_prompt
     end
   end
 
@@ -586,15 +587,15 @@ class Game
     # if win then set winner and break
   end
 
-  def save_game
+  def save_game_prompt
     puts 'Would you like to save the game? Type y for yes'
     response = gets.chomp
     return unless response == 'y' || response == 'yes'
     save_file_name = 'save.JSON'
-    save_file = File.open(save_file_name, 'w+')
     save_data = JSON.generate('player1': @player1, 'player2': @player2, 'board': @board)
-    File.write(save_file_name, save_data)
-   end
+    File.open(save_file_name, 'w+') # Overwrite the file
+    File.write(save_file_name, save_data) # Write the JSON data
+  end
 
   def load_game
 
