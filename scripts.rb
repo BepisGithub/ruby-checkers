@@ -475,8 +475,8 @@ class Game
     #binding.pry
     @player1.active ? active = @player1 : active = @player2
     # check for a return value indicating a win
-    result = round(active)
-    while result == false
+    winner = round(active)
+    while winner == false
     # if no win switch active players
     # repeat
       if @player1.active
@@ -488,12 +488,12 @@ class Game
         @player2.active = false
         active = @player1
       end
-      result = round(active)
+      winner = round(active)
       @board.populate_all_pieces_adjacency_list
       save_game_prompt
     end
     binding.pry
-    puts 'WONNNNNNNNNN' if result
+    puts 'WONNNNNNNNNN' if winner
   end
 
   def round(active)
