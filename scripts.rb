@@ -1,5 +1,6 @@
 require 'pry'
 require 'json'
+require 'yaml'
 class LinkedNode
   attr_accessor :data, :next_node
 
@@ -430,9 +431,11 @@ class Player
 end
 
 class Game
-  attr_accessor :player1, :player2, :board
+  attr_accessor :player1, :player2, :board, :save_file_name
 
   def initialize
+    @save_file_name = 'save.JSON'
+    load_game
     @player1 = Player.new
     @player2 = Player.new
     puts 'Player 1!'
@@ -492,6 +495,7 @@ class Game
   end
 
   def round(active)
+    # binding.pry
     @board.king_check
     @board.display
     puts "#{active.name}, your symbol is #{active.piece_symbol}. It's your turn to make a move"
@@ -591,13 +595,32 @@ class Game
     puts 'Would you like to save the game? Type y for yes'
     response = gets.chomp
     return unless response == 'y' || response == 'yes'
-    save_file_name = 'save.JSON'
-    save_data = JSON.generate('player1': @player1, 'player2': @player2, 'board': @board)
-    File.open(save_file_name, 'w+') # Overwrite the file
-    File.write(save_file_name, save_data) # Write the JSON data
+    puts 'saving'
+    # save_data = JSON.generate('player1': @player1.to_json, 'player2': @player2.to_json, 'board': @board.to_json)
+    save_data = {:player1 => @player1, :player2 => @player2, :board => @board}.to_yaml
+    puts 'Serialized data'
+    File.open(@save_file_name, 'w+') # Overwrite the file
+    puts 'Opened file'
+    File.write(@save_file_name, save_data) # Write the data
+    puts 'Saved game!'
   end
 
   def load_game
-
+    return unless File.file?(@save_file_name)
+    puts 'Would you like to resume from the saved game? Type y for yes'
+    response = gets.chomp
+    return unless response == 'y' || response == 'yes'
+    puts 'loading...'
+    save_data = File.read(@save_file_name)
+    puts 'Loaded file!'
+    save_data = YAML.load(save_data)
+    puts 'Parsed data!'
+    @player1 = save_data[:player1]
+    puts 'Loaded first player!'
+    @player2 = save_data[:player2]
+    puts 'Loaded second player!'
+    @board = save_data[:board]
+    puts 'Loaded board!'
+    play
   end
 end
