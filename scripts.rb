@@ -390,7 +390,6 @@ class Player
       x_choice = gets.chomp.to_i until x_choice <= 8 && x_choice.positive? # FIX later
       puts 'Write the y coordinate of the piece you want to get'
       y_choice = gets.chomp.to_i until y_choice <= 8 && y_choice.positive? # FIX later
-      # binding.pry
       choice_node = board.find_by_coord([x_choice, y_choice])
       puts 'Invalid, try again' if choice_node.data.occupant.nil? || choice_node.data.occupant.owner.name != @name
       # choice_node = nil if choice_node.data.occupant.owner.name != @name # HACK
@@ -471,7 +470,7 @@ class Game
   end
 
   def play
-    # TODO: Add a save function
+    #binding.pry
     @player1.active ? active = @player1 : active = @player2
     # check for a return value indicating a win
     result = round(active)
@@ -494,7 +493,6 @@ class Game
   end
 
   def round(active)
-    # binding.pry
     @board.king_check
     @board.display
     puts "#{active.name}, your symbol is #{active.piece_symbol}. It's your turn to make a move"
@@ -596,7 +594,8 @@ class Game
     return unless response == 'y' || response == 'yes'
     puts 'saving'
     # save_data = JSON.generate('player1': @player1.to_json, 'player2': @player2.to_json, 'board': @board.to_json)
-    save_data = {:player1 => @player1, :player2 => @player2, :board => @board}.to_yaml
+    @board.populate_all_pieces_adjacency_list
+    save_data = {:player1 => @player1, :player2 => @player2, :board => @board }.to_yaml
     puts 'Serialized data'
     File.open(@save_file_name, 'w+') # Overwrite the file
     puts 'Opened file'
@@ -609,6 +608,7 @@ class Game
     puts 'Would you like to resume from the saved game? Type y for yes'
     response = gets.chomp
     return unless response == 'y' || response == 'yes'
+    #binding.pry
     puts 'loading...'
     save_data = File.read(@save_file_name)
     puts 'Loaded file!'
@@ -620,6 +620,14 @@ class Game
     puts 'Loaded second player!'
     @board = save_data[:board]
     puts 'Loaded board!'
+    if @player1.active
+      @player1.active = false
+      @player2.active = true
+    else
+      @player2.active = false
+      @player1.active = true
+    end
+    #binding.pry
     play
   end
 end
