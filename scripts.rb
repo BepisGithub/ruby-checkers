@@ -589,10 +589,12 @@ class Game
   def save_game
     puts 'Would you like to save the game? Type y for yes'
     response = gets.chomp
-    if response == 'y' || response == 'yes'
-
-    end
-  end
+    return unless response == 'y' || response == 'yes'
+    save_file_name = 'save.JSON'
+    save_file = File.open(save_file_name, 'w+')
+    save_data = JSON.generate('player1': @player1, 'player2': @player2, 'board': @board)
+    File.write(save_file_name, save_data)
+   end
 
   def load_game
 
