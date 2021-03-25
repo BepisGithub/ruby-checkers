@@ -496,7 +496,12 @@ class Game
   end
 
   def game_end(winner)
-
+    puts "The winner is #{winner.name}, your piece symbol was #{winner.piece_symbol}. Congratulations!"
+    puts 'Would you like to play again? Type y for yes'
+    response = gets.chomp
+    return unless response == 'y' || response == 'yes'
+    initialize
+    play
   end
 
   def round(active)
