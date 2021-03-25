@@ -346,7 +346,7 @@ class Pieces
 end
 
 class Player
-  attr_accessor :name, :active, :won, :pieces_list, :piece_symbol
+  attr_accessor :name, :active, :won, :pieces_list, :piece_symbol, :ai
 
   def initialize(name = nil)
     @name = name unless name.nil?
@@ -354,13 +354,19 @@ class Player
     @won = false
     @pieces_list = LinkedList.new
     @piece_symbol
+    @ai = false
   end
 
   def get_name
-    puts 'What\'s your name? '
-    name = gets.chomp.capitalize
-    @name = name
-    puts "Hey, #{name}"
+    if ai
+      rand_num = rand(1..2)
+      rand_num == 1 ? @name = 'DAVE' : @name = 'BOT'
+    else
+      puts 'What\'s your name? '
+      name = gets.chomp.capitalize
+      @name = name
+      puts "Hey, #{name}"
+    end
   end
 
   def get_choice(board)
@@ -382,47 +388,57 @@ class Player
       end
     end
     choice_node = nil
-    loop do
-      puts 'Write the x coordinate of the piece you want to get'
-      puts 'If you can make a jump, you must' if jump_possible
-      x_choice = -1
-      y_choice = -1
-      x_choice = gets.chomp.to_i until x_choice <= 8 && x_choice.positive? # FIX later
-      puts 'Write the y coordinate of the piece you want to get'
-      y_choice = gets.chomp.to_i until y_choice <= 8 && y_choice.positive? # FIX later
-      choice_node = board.find_by_coord([x_choice, y_choice])
-      puts 'Invalid, try again' if choice_node.data.occupant.nil? || choice_node.data.occupant.owner.name != @name
-      # choice_node = nil if choice_node.data.occupant.owner.name != @name # HACK
-      break unless choice_node.data.occupant.nil? || choice_node.data.occupant.owner.name != @name # HACK
-    end
-    piece = choice_node.data.occupant
-    return nil if piece.nil?
-    return nil if piece.adjacent_moves.empty?
-    puts 'Which direction do you want to move the piece in?'
-    puts 'Top right? (type tr)' unless piece.adjacent_moves[:tr].nil?
-    puts 'Top left? (type tl)' unless piece.adjacent_moves[:tl].nil?
-    puts 'Bottom right? (type br)' unless piece.adjacent_moves[:br].nil?
-    puts 'Bottom left? (type bl)' unless piece.adjacent_moves[:bl].nil?
     move_choice = nil
-    loop do
-      move_choice = gets.chomp until move_choice.is_a? String
-      case move_choice
-      when 'tr'
-        move_choice = :tr unless piece.adjacent_moves[:tr].nil?
-        break
-      when 'tl'
-        move_choice = :tl unless piece.adjacent_moves[:tl].nil?
-        break
-      when 'bl'
-        move_choice = :bl unless piece.adjacent_moves[:bl].nil?
-        break
-      when 'br'
-        move_choice = :br unless piece.adjacent_moves[:br].nil?
-        break
-      else
-        move_choice = nil
+    piece = nil
+    if ai
+      # binding.pry
+      piece = all_pieces.sample
+      piece = all_pieces.sample while piece.data.occupant.adjacent_moves.empty?
+      piece = piece.data.occupant
+      move_choice = piece.adjacent_moves.keys.sample while move_choice.nil?
+    else
+      loop do
+        puts 'Write the x coordinate of the piece you want to get'
+        puts 'If you can make a jump, you must' if jump_possible
+        x_choice = -1
+        y_choice = -1
+        x_choice = gets.chomp.to_i until x_choice <= 8 && x_choice.positive? # FIX later
+        puts 'Write the y coordinate of the piece you want to get'
+        y_choice = gets.chomp.to_i until y_choice <= 8 && y_choice.positive? # FIX later
+        choice_node = board.find_by_coord([x_choice, y_choice])
+        puts 'Invalid, try again' if choice_node.data.occupant.nil? || choice_node.data.occupant.owner.name != @name
+        # choice_node = nil if choice_node.data.occupant.owner.name != @name # HACK
+        break unless choice_node.data.occupant.nil? || choice_node.data.occupant.owner.name != @name # HACK
       end
-      break unless move_choice.nil?
+      piece = choice_node.data.occupant
+      return nil if piece.nil?
+      return nil if piece.adjacent_moves.empty?
+      puts 'Which direction do you want to move the piece in?'
+      puts 'Top right? (type tr)' unless piece.adjacent_moves[:tr].nil?
+      puts 'Top left? (type tl)' unless piece.adjacent_moves[:tl].nil?
+      puts 'Bottom right? (type br)' unless piece.adjacent_moves[:br].nil?
+      puts 'Bottom left? (type bl)' unless piece.adjacent_moves[:bl].nil?
+      move_choice = nil
+      loop do
+        move_choice = gets.chomp until move_choice.is_a? String
+        case move_choice
+        when 'tr'
+          move_choice = :tr unless piece.adjacent_moves[:tr].nil?
+          break
+        when 'tl'
+          move_choice = :tl unless piece.adjacent_moves[:tl].nil?
+          break
+        when 'bl'
+          move_choice = :bl unless piece.adjacent_moves[:bl].nil?
+          break
+        when 'br'
+          move_choice = :br unless piece.adjacent_moves[:br].nil?
+          break
+        else
+          move_choice = nil
+        end
+        break unless move_choice.nil?
+      end
     end
     return [piece.id, move_choice]
   end
@@ -435,8 +451,13 @@ class Game
     @save_file_name = 'save.JSON'
     load_status = load_game
     if load_status.nil?
+      puts 'Would you like to play against an ai? Type y for yes'
+      response = gets.chomp
+      ai = false
+      ai = true if response == 'y' || response == 'yes'
       @player1 = Player.new
       @player2 = Player.new
+      @player2.ai = true if ai
       puts 'Player 1!'
       @player1.get_name
       puts 'Player 2!'
