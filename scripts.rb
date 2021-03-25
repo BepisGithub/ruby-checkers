@@ -433,40 +433,42 @@ class Game
 
   def initialize
     @save_file_name = 'save.JSON'
-    load_game
-    @player1 = Player.new
-    @player2 = Player.new
-    puts 'Player 1!'
-    @player1.get_name
-    puts 'Player 2!'
-    @player2.get_name
-    @player1.piece_symbol = ['⛀']
-    @player2.piece_symbol = ['⛂']
-    @board = Board.new
-    @board.display
-    rand(1..10) % 2 ? @player1.active = true : @player2.active = true
-    num_of_player_pieces = 24
-    @player1.active ? active = @player1 : active = @player2
-    move_up = true
-    num_of_player_pieces.times do |id|
-      if (id + 1) == 13
-        active == @player1 ? active = @player2 : active = @player1
-        move_up = false
+    load_status = load_game
+    if load_status.nil?
+      @player1 = Player.new
+      @player2 = Player.new
+      puts 'Player 1!'
+      @player1.get_name
+      puts 'Player 2!'
+      @player2.get_name
+      @player1.piece_symbol = ['⛀']
+      @player2.piece_symbol = ['⛂']
+      @board = Board.new
+      @board.display
+      rand(1..10) % 2 ? @player1.active = true : @player2.active = true
+      num_of_player_pieces = 24
+      @player1.active ? active = @player1 : active = @player2
+      move_up = true
+      num_of_player_pieces.times do |id|
+        if (id + 1) == 13
+          active == @player1 ? active = @player2 : active = @player1
+          move_up = false
+        end
+        # Create pieces for player 1, then player 2
+        # Each player has a pieces list which is a linked list
+        # Append a piece to the linked list with the ID
+        active.pieces_list.append(LinkedNode.new(Pieces.new((id + 1), active, move_up)))
+        # The piece will take the id, the owner and the direction to move (which will be the opposite the two players)
       end
-      # Create pieces for player 1, then player 2
-      # Each player has a pieces list which is a linked list
-      # Append a piece to the linked list with the ID
-      active.pieces_list.append(LinkedNode.new(Pieces.new((id + 1), active, move_up)))
-      # The piece will take the id, the owner and the direction to move (which will be the opposite the two players)
+      if @player1.pieces_list.head.data.move_down
+        down_moving_player = @player1
+        up_moving_player = @player2
+      else
+        down_moving_player = @player2
+        up_moving_player = @player1
+      end
+      @board.setup_board(down_moving_player, up_moving_player)
     end
-    if @player1.pieces_list.head.data.move_down
-      down_moving_player = @player1
-      up_moving_player = @player2
-    else
-      down_moving_player = @player2
-      up_moving_player = @player1
-    end
-    @board.setup_board(down_moving_player, up_moving_player)
   end
 
   def play
@@ -490,6 +492,7 @@ class Game
       @board.populate_all_pieces_adjacency_list
       save_game_prompt
     end
+    binding.pry
     puts 'WONNNNNNNNNN' if result
   end
 
@@ -607,10 +610,10 @@ class Game
   end
 
   def load_game
-    return unless File.file?(@save_file_name)
+    return nil unless File.file?(@save_file_name)
     puts 'Would you like to resume from the saved game? Type y for yes'
     response = gets.chomp
-    return unless response == 'y' || response == 'yes'
+    return nil unless response == 'y' || response == 'yes'
     #binding.pry
     puts 'loading...'
     save_data = File.read(@save_file_name)
@@ -631,6 +634,5 @@ class Game
       @player1.active = true
     end
     # binding.pry
-    play
   end
 end
