@@ -1,5 +1,4 @@
 require 'pry'
-require 'json'
 require 'yaml'
 class LinkedNode
   attr_accessor :data, :next_node
