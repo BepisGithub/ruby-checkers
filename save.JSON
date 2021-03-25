@@ -1,0 +1,729 @@
+---
+:player1: &1 !ruby/object:Player
+  name: A
+  active: false
+  won: false
+  pieces_list: !ruby/object:LinkedList
+    head: !ruby/object:LinkedNode
+      data: &14 !ruby/object:Pieces
+        id: 1
+        owner: *1
+        king: false
+        move_up: true
+        move_down: false
+        adjacent_moves: {}
+        display_symbol: &2
+        - "⛀"
+      next_node: !ruby/object:LinkedNode
+        data: &13 !ruby/object:Pieces
+          id: 2
+          owner: *1
+          king: false
+          move_up: true
+          move_down: false
+          adjacent_moves: {}
+          display_symbol: *2
+        next_node: !ruby/object:LinkedNode
+          data: &12 !ruby/object:Pieces
+            id: 3
+            owner: *1
+            king: false
+            move_up: true
+            move_down: false
+            adjacent_moves: {}
+            display_symbol: *2
+          next_node: !ruby/object:LinkedNode
+            data: &11 !ruby/object:Pieces
+              id: 4
+              owner: *1
+              king: false
+              move_up: true
+              move_down: false
+              adjacent_moves: {}
+              display_symbol: *2
+            next_node: !ruby/object:LinkedNode
+              data: &10 !ruby/object:Pieces
+                id: 5
+                owner: *1
+                king: false
+                move_up: true
+                move_down: false
+                adjacent_moves: {}
+                display_symbol: *2
+              next_node: !ruby/object:LinkedNode
+                data: &9 !ruby/object:Pieces
+                  id: 6
+                  owner: *1
+                  king: false
+                  move_up: true
+                  move_down: false
+                  adjacent_moves: {}
+                  display_symbol: *2
+                next_node: !ruby/object:LinkedNode
+                  data: &8 !ruby/object:Pieces
+                    id: 7
+                    owner: *1
+                    king: false
+                    move_up: true
+                    move_down: false
+                    adjacent_moves: {}
+                    display_symbol: *2
+                  next_node: !ruby/object:LinkedNode
+                    data: &7 !ruby/object:Pieces
+                      id: 8
+                      owner: *1
+                      king: false
+                      move_up: true
+                      move_down: false
+                      adjacent_moves:
+                        :tl: !ruby/object:Move
+                          end_spot: &3 !ruby/object:LinkedNode
+                            data: !ruby/object:SpotNode
+                              dark: true
+                              coordinate:
+                              - 1
+                              - 3
+                              occupant: 
+                            next_node: !ruby/object:LinkedNode
+                              data: !ruby/object:SpotNode
+                                dark: false
+                                coordinate:
+                                - 2
+                                - 3
+                                occupant: 
+                              next_node: !ruby/object:LinkedNode
+                                data: !ruby/object:SpotNode
+                                  dark: true
+                                  coordinate:
+                                  - 3
+                                  - 3
+                                  occupant: &17 !ruby/object:Pieces
+                                    id: 11
+                                    owner: *1
+                                    king: false
+                                    move_up: true
+                                    move_down: false
+                                    adjacent_moves:
+                                      :tr: !ruby/object:Move
+                                        end_spot: &5 !ruby/object:LinkedNode
+                                          data: !ruby/object:SpotNode
+                                            dark: true
+                                            coordinate:
+                                            - 4
+                                            - 4
+                                            occupant: 
+                                          next_node: !ruby/object:LinkedNode
+                                            data: !ruby/object:SpotNode
+                                              dark: false
+                                              coordinate:
+                                              - 5
+                                              - 4
+                                              occupant: 
+                                            next_node: &4 !ruby/object:LinkedNode
+                                              data: !ruby/object:SpotNode
+                                                dark: true
+                                                coordinate:
+                                                - 6
+                                                - 4
+                                                occupant: 
+                                              next_node: !ruby/object:LinkedNode
+                                                data: !ruby/object:SpotNode
+                                                  dark: false
+                                                  coordinate:
+                                                  - 7
+                                                  - 4
+                                                  occupant: 
+                                                next_node: &6 !ruby/object:LinkedNode
+                                                  data: !ruby/object:SpotNode
+                                                    dark: true
+                                                    coordinate:
+                                                    - 8
+                                                    - 4
+                                                    occupant: 
+                                                  next_node: *3
+                                        jumped_piece: 
+                                    display_symbol: *2
+                                next_node: !ruby/object:LinkedNode
+                                  data: !ruby/object:SpotNode
+                                    dark: false
+                                    coordinate:
+                                    - 4
+                                    - 3
+                                    occupant: 
+                                  next_node: !ruby/object:LinkedNode
+                                    data: !ruby/object:SpotNode
+                                      dark: true
+                                      coordinate:
+                                      - 5
+                                      - 3
+                                      occupant: &16 !ruby/object:Pieces
+                                        id: 10
+                                        owner: *1
+                                        king: false
+                                        move_up: true
+                                        move_down: false
+                                        adjacent_moves:
+                                          :tr: !ruby/object:Move
+                                            end_spot: *4
+                                            jumped_piece: 
+                                          :tl: !ruby/object:Move
+                                            end_spot: *5
+                                            jumped_piece: 
+                                        display_symbol: *2
+                                    next_node: !ruby/object:LinkedNode
+                                      data: !ruby/object:SpotNode
+                                        dark: false
+                                        coordinate:
+                                        - 6
+                                        - 3
+                                        occupant: 
+                                      next_node: !ruby/object:LinkedNode
+                                        data: !ruby/object:SpotNode
+                                          dark: true
+                                          coordinate:
+                                          - 7
+                                          - 3
+                                          occupant: &15 !ruby/object:Pieces
+                                            id: 9
+                                            owner: *1
+                                            king: false
+                                            move_up: true
+                                            move_down: false
+                                            adjacent_moves:
+                                              :tr: !ruby/object:Move
+                                                end_spot: *6
+                                                jumped_piece: 
+                                              :tl: !ruby/object:Move
+                                                end_spot: *4
+                                                jumped_piece: 
+                                            display_symbol: *2
+                                        next_node: !ruby/object:LinkedNode
+                                          data: !ruby/object:SpotNode
+                                            dark: false
+                                            coordinate:
+                                            - 8
+                                            - 3
+                                            occupant: 
+                                          next_node: !ruby/object:LinkedNode
+                                            data: !ruby/object:SpotNode
+                                              dark: false
+                                              coordinate:
+                                              - 1
+                                              - 2
+                                              occupant: 
+                                            next_node: !ruby/object:LinkedNode
+                                              data: !ruby/object:SpotNode
+                                                dark: true
+                                                coordinate:
+                                                - 2
+                                                - 2
+                                                occupant: *7
+                                              next_node: !ruby/object:LinkedNode
+                                                data: !ruby/object:SpotNode
+                                                  dark: false
+                                                  coordinate:
+                                                  - 3
+                                                  - 2
+                                                  occupant: 
+                                                next_node: !ruby/object:LinkedNode
+                                                  data: !ruby/object:SpotNode
+                                                    dark: true
+                                                    coordinate:
+                                                    - 4
+                                                    - 2
+                                                    occupant: *8
+                                                  next_node: !ruby/object:LinkedNode
+                                                    data: !ruby/object:SpotNode
+                                                      dark: false
+                                                      coordinate:
+                                                      - 5
+                                                      - 2
+                                                      occupant: 
+                                                    next_node: !ruby/object:LinkedNode
+                                                      data: !ruby/object:SpotNode
+                                                        dark: true
+                                                        coordinate:
+                                                        - 6
+                                                        - 2
+                                                        occupant: *9
+                                                      next_node: !ruby/object:LinkedNode
+                                                        data: !ruby/object:SpotNode
+                                                          dark: false
+                                                          coordinate:
+                                                          - 7
+                                                          - 2
+                                                          occupant: 
+                                                        next_node: !ruby/object:LinkedNode
+                                                          data: !ruby/object:SpotNode
+                                                            dark: true
+                                                            coordinate:
+                                                            - 8
+                                                            - 2
+                                                            occupant: *10
+                                                          next_node: !ruby/object:LinkedNode
+                                                            data: !ruby/object:SpotNode
+                                                              dark: true
+                                                              coordinate:
+                                                              - 1
+                                                              - 1
+                                                              occupant: *11
+                                                            next_node: !ruby/object:LinkedNode
+                                                              data: !ruby/object:SpotNode
+                                                                dark: false
+                                                                coordinate:
+                                                                - 2
+                                                                - 1
+                                                                occupant: 
+                                                              next_node: !ruby/object:LinkedNode
+                                                                data: !ruby/object:SpotNode
+                                                                  dark: true
+                                                                  coordinate:
+                                                                  - 3
+                                                                  - 1
+                                                                  occupant: *12
+                                                                next_node: !ruby/object:LinkedNode
+                                                                  data: !ruby/object:SpotNode
+                                                                    dark: false
+                                                                    coordinate:
+                                                                    - 4
+                                                                    - 1
+                                                                    occupant: 
+                                                                  next_node: !ruby/object:LinkedNode
+                                                                    data: !ruby/object:SpotNode
+                                                                      dark: true
+                                                                      coordinate:
+                                                                      - 5
+                                                                      - 1
+                                                                      occupant: *13
+                                                                    next_node: !ruby/object:LinkedNode
+                                                                      data: !ruby/object:SpotNode
+                                                                        dark: false
+                                                                        coordinate:
+                                                                        - 6
+                                                                        - 1
+                                                                        occupant: 
+                                                                      next_node: !ruby/object:LinkedNode
+                                                                        data: !ruby/object:SpotNode
+                                                                          dark: true
+                                                                          coordinate:
+                                                                          - 7
+                                                                          - 1
+                                                                          occupant: *14
+                                                                        next_node: &39 !ruby/object:LinkedNode
+                                                                          data: !ruby/object:SpotNode
+                                                                            dark: false
+                                                                            coordinate:
+                                                                            - 8
+                                                                            - 1
+                                                                            occupant: 
+                                                                          next_node: 
+                          jumped_piece: 
+                      display_symbol: *2
+                    next_node: !ruby/object:LinkedNode
+                      data: *15
+                      next_node: !ruby/object:LinkedNode
+                        data: *16
+                        next_node: !ruby/object:LinkedNode
+                          data: *17
+                          next_node: &19 !ruby/object:LinkedNode
+                            data: &18 !ruby/object:Pieces
+                              id: 12
+                              owner: *1
+                              king: false
+                              move_up: true
+                              move_down: false
+                              adjacent_moves:
+                                :tr: !ruby/object:Move
+                                  end_spot: &23 !ruby/object:LinkedNode
+                                    data: !ruby/object:SpotNode
+                                      dark: true
+                                      coordinate:
+                                      - 3
+                                      - 5
+                                      occupant: 
+                                    next_node: !ruby/object:LinkedNode
+                                      data: !ruby/object:SpotNode
+                                        dark: false
+                                        coordinate:
+                                        - 4
+                                        - 5
+                                        occupant: 
+                                      next_node: &22 !ruby/object:LinkedNode
+                                        data: !ruby/object:SpotNode
+                                          dark: true
+                                          coordinate:
+                                          - 5
+                                          - 5
+                                          occupant: 
+                                        next_node: !ruby/object:LinkedNode
+                                          data: !ruby/object:SpotNode
+                                            dark: false
+                                            coordinate:
+                                            - 6
+                                            - 5
+                                            occupant: 
+                                          next_node: &24 !ruby/object:LinkedNode
+                                            data: !ruby/object:SpotNode
+                                              dark: true
+                                              coordinate:
+                                              - 7
+                                              - 5
+                                              occupant: 
+                                            next_node: !ruby/object:LinkedNode
+                                              data: !ruby/object:SpotNode
+                                                dark: false
+                                                coordinate:
+                                                - 8
+                                                - 5
+                                                occupant: 
+                                              next_node: !ruby/object:LinkedNode
+                                                data: !ruby/object:SpotNode
+                                                  dark: false
+                                                  coordinate:
+                                                  - 1
+                                                  - 4
+                                                  occupant: 
+                                                next_node: !ruby/object:LinkedNode
+                                                  data: !ruby/object:SpotNode
+                                                    dark: true
+                                                    coordinate:
+                                                    - 2
+                                                    - 4
+                                                    occupant: *18
+                                                  next_node: !ruby/object:LinkedNode
+                                                    data: !ruby/object:SpotNode
+                                                      dark: false
+                                                      coordinate:
+                                                      - 3
+                                                      - 4
+                                                      occupant: 
+                                                    next_node: *5
+                                  jumped_piece: 
+                              display_symbol: *2
+                            next_node: 
+    tail: *19
+  piece_symbol: *2
+:player2: &20 !ruby/object:Player
+  name: B
+  active: true
+  won: false
+  pieces_list: !ruby/object:LinkedList
+    head: !ruby/object:LinkedNode
+      data: &31 !ruby/object:Pieces
+        id: 13
+        owner: *20
+        king: false
+        move_up: false
+        move_down: true
+        adjacent_moves: {}
+        display_symbol: &21
+        - "⛂"
+      next_node: !ruby/object:LinkedNode
+        data: &32 !ruby/object:Pieces
+          id: 14
+          owner: *20
+          king: false
+          move_up: false
+          move_down: true
+          adjacent_moves: {}
+          display_symbol: *21
+        next_node: !ruby/object:LinkedNode
+          data: &33 !ruby/object:Pieces
+            id: 15
+            owner: *20
+            king: false
+            move_up: false
+            move_down: true
+            adjacent_moves: {}
+            display_symbol: *21
+          next_node: !ruby/object:LinkedNode
+            data: &34 !ruby/object:Pieces
+              id: 16
+              owner: *20
+              king: false
+              move_up: false
+              move_down: true
+              adjacent_moves: {}
+              display_symbol: *21
+            next_node: !ruby/object:LinkedNode
+              data: &35 !ruby/object:Pieces
+                id: 17
+                owner: *20
+                king: false
+                move_up: false
+                move_down: true
+                adjacent_moves:
+                  :br: !ruby/object:Move
+                    end_spot: &25 !ruby/object:LinkedNode
+                      data: !ruby/object:SpotNode
+                        dark: true
+                        coordinate:
+                        - 2
+                        - 6
+                        occupant: 
+                      next_node: !ruby/object:LinkedNode
+                        data: !ruby/object:SpotNode
+                          dark: false
+                          coordinate:
+                          - 3
+                          - 6
+                          occupant: 
+                        next_node: !ruby/object:LinkedNode
+                          data: !ruby/object:SpotNode
+                            dark: true
+                            coordinate:
+                            - 4
+                            - 6
+                            occupant: &27 !ruby/object:Pieces
+                              id: 22
+                              owner: *20
+                              king: false
+                              move_up: false
+                              move_down: true
+                              adjacent_moves:
+                                :br: !ruby/object:Move
+                                  end_spot: *22
+                                  jumped_piece: 
+                                :bl: !ruby/object:Move
+                                  end_spot: *23
+                                  jumped_piece: 
+                              display_symbol: *21
+                          next_node: !ruby/object:LinkedNode
+                            data: !ruby/object:SpotNode
+                              dark: false
+                              coordinate:
+                              - 5
+                              - 6
+                              occupant: 
+                            next_node: !ruby/object:LinkedNode
+                              data: !ruby/object:SpotNode
+                                dark: true
+                                coordinate:
+                                - 6
+                                - 6
+                                occupant: &28 !ruby/object:Pieces
+                                  id: 23
+                                  owner: *20
+                                  king: false
+                                  move_up: false
+                                  move_down: true
+                                  adjacent_moves:
+                                    :br: !ruby/object:Move
+                                      end_spot: *24
+                                      jumped_piece: 
+                                    :bl: !ruby/object:Move
+                                      end_spot: *22
+                                      jumped_piece: 
+                                  display_symbol: *21
+                              next_node: !ruby/object:LinkedNode
+                                data: !ruby/object:SpotNode
+                                  dark: false
+                                  coordinate:
+                                  - 7
+                                  - 6
+                                  occupant: 
+                                next_node: !ruby/object:LinkedNode
+                                  data: !ruby/object:SpotNode
+                                    dark: true
+                                    coordinate:
+                                    - 8
+                                    - 6
+                                    occupant: &29 !ruby/object:Pieces
+                                      id: 24
+                                      owner: *20
+                                      king: false
+                                      move_up: false
+                                      move_down: true
+                                      adjacent_moves:
+                                        :bl: !ruby/object:Move
+                                          end_spot: *24
+                                          jumped_piece: 
+                                      display_symbol: *21
+                                  next_node: !ruby/object:LinkedNode
+                                    data: !ruby/object:SpotNode
+                                      dark: true
+                                      coordinate:
+                                      - 1
+                                      - 5
+                                      occupant: &26 !ruby/object:Pieces
+                                        id: 21
+                                        owner: *20
+                                        king: false
+                                        move_up: false
+                                        move_down: true
+                                        adjacent_moves: {}
+                                        display_symbol: *21
+                                    next_node: !ruby/object:LinkedNode
+                                      data: !ruby/object:SpotNode
+                                        dark: false
+                                        coordinate:
+                                        - 2
+                                        - 5
+                                        occupant: 
+                                      next_node: *23
+                    jumped_piece: 
+                display_symbol: *21
+              next_node: !ruby/object:LinkedNode
+                data: &36 !ruby/object:Pieces
+                  id: 18
+                  owner: *20
+                  king: false
+                  move_up: false
+                  move_down: true
+                  adjacent_moves:
+                    :bl: !ruby/object:Move
+                      end_spot: *25
+                      jumped_piece: 
+                  display_symbol: *21
+                next_node: !ruby/object:LinkedNode
+                  data: &37 !ruby/object:Pieces
+                    id: 19
+                    owner: *20
+                    king: false
+                    move_up: false
+                    move_down: true
+                    adjacent_moves: {}
+                    display_symbol: *21
+                  next_node: !ruby/object:LinkedNode
+                    data: &38 !ruby/object:Pieces
+                      id: 20
+                      owner: *20
+                      king: false
+                      move_up: false
+                      move_down: true
+                      adjacent_moves: {}
+                      display_symbol: *21
+                    next_node: !ruby/object:LinkedNode
+                      data: *26
+                      next_node: !ruby/object:LinkedNode
+                        data: *27
+                        next_node: !ruby/object:LinkedNode
+                          data: *28
+                          next_node: &30 !ruby/object:LinkedNode
+                            data: *29
+                            next_node: 
+    tail: *30
+  piece_symbol: *21
+:board: !ruby/object:Board
+  graph: !ruby/object:LinkedList
+    head: !ruby/object:LinkedNode
+      data: !ruby/object:SpotNode
+        dark: false
+        coordinate:
+        - 1
+        - 8
+        occupant: 
+      next_node: !ruby/object:LinkedNode
+        data: !ruby/object:SpotNode
+          dark: true
+          coordinate:
+          - 2
+          - 8
+          occupant: *31
+        next_node: !ruby/object:LinkedNode
+          data: !ruby/object:SpotNode
+            dark: false
+            coordinate:
+            - 3
+            - 8
+            occupant: 
+          next_node: !ruby/object:LinkedNode
+            data: !ruby/object:SpotNode
+              dark: true
+              coordinate:
+              - 4
+              - 8
+              occupant: *32
+            next_node: !ruby/object:LinkedNode
+              data: !ruby/object:SpotNode
+                dark: false
+                coordinate:
+                - 5
+                - 8
+                occupant: 
+              next_node: !ruby/object:LinkedNode
+                data: !ruby/object:SpotNode
+                  dark: true
+                  coordinate:
+                  - 6
+                  - 8
+                  occupant: *33
+                next_node: !ruby/object:LinkedNode
+                  data: !ruby/object:SpotNode
+                    dark: false
+                    coordinate:
+                    - 7
+                    - 8
+                    occupant: 
+                  next_node: !ruby/object:LinkedNode
+                    data: !ruby/object:SpotNode
+                      dark: true
+                      coordinate:
+                      - 8
+                      - 8
+                      occupant: *34
+                    next_node: !ruby/object:LinkedNode
+                      data: !ruby/object:SpotNode
+                        dark: true
+                        coordinate:
+                        - 1
+                        - 7
+                        occupant: *35
+                      next_node: !ruby/object:LinkedNode
+                        data: !ruby/object:SpotNode
+                          dark: false
+                          coordinate:
+                          - 2
+                          - 7
+                          occupant: 
+                        next_node: !ruby/object:LinkedNode
+                          data: !ruby/object:SpotNode
+                            dark: true
+                            coordinate:
+                            - 3
+                            - 7
+                            occupant: *36
+                          next_node: !ruby/object:LinkedNode
+                            data: !ruby/object:SpotNode
+                              dark: false
+                              coordinate:
+                              - 4
+                              - 7
+                              occupant: 
+                            next_node: !ruby/object:LinkedNode
+                              data: !ruby/object:SpotNode
+                                dark: true
+                                coordinate:
+                                - 5
+                                - 7
+                                occupant: *37
+                              next_node: !ruby/object:LinkedNode
+                                data: !ruby/object:SpotNode
+                                  dark: false
+                                  coordinate:
+                                  - 6
+                                  - 7
+                                  occupant: 
+                                next_node: !ruby/object:LinkedNode
+                                  data: !ruby/object:SpotNode
+                                    dark: true
+                                    coordinate:
+                                    - 7
+                                    - 7
+                                    occupant: *38
+                                  next_node: !ruby/object:LinkedNode
+                                    data: !ruby/object:SpotNode
+                                      dark: false
+                                      coordinate:
+                                      - 8
+                                      - 7
+                                      occupant: 
+                                    next_node: !ruby/object:LinkedNode
+                                      data: !ruby/object:SpotNode
+                                        dark: false
+                                        coordinate:
+                                        - 1
+                                        - 6
+                                        occupant: 
+                                      next_node: *25
+    tail: *39
