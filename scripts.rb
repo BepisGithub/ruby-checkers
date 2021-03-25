@@ -159,14 +159,7 @@ class Board
         puts ' '
         print [y_coordinate_counter].to_s
         if linked_node.data.occupant # There is a piece that needs to be displayed
-          # display_array = []
-          # name = linked_node.data.occupant.owner.name
-          # display_array.push(name)
-          # linked_node.data.occupant.king ? display_array.push('K') : display_array.push('M')
-          # display_array.push(linked_node.data.occupant.id)
-          # print ["#{display_array[0]}#{display_array[1]}#{display_array[2]}"]
           print linked_node.data.occupant.display_symbol
-          
         else
           if linked_node.data.dark
             print dark_occupant
@@ -236,19 +229,6 @@ class Board
     elsif linked_diagonal_node.data.occupant.owner.name != piece_linked_node.data.occupant.owner.name && linked_jump_node.data.occupant.nil?
       piece_linked_node.data.occupant.adjacent_moves[direction] = Move.new(linked_jump_node, linked_diagonal_node.data.occupant)
     end
-    # FIX: THE JUMP IS not working
-    # return unless Board.within_bounds?(diagonal_check_coord)
-
-    # linked_diagonal_node = find_by_coord(diagonal_check_coord)
-    # return if linked_diagonal_node.nil?
-    # return unless dark_spots.include?(linked_diagonal_node)
-    # # If the spot is empty, add the move to the adjacency list (the hash)
-    # if linked_diagonal_node.data.occupant.nil?
-    #   piece.adjacent_moves[direction] = Move.new(linked_diagonal_node)
-    # else
-    #   # However, if the spot is occupied then we need to check for the possibility of a jump
-    #   # Jumping is mandatory, if you can jump then you must
-    # end
   end
 
   def populate_adjacency_list(piece)
@@ -400,14 +380,6 @@ class Player
         piece.data.occupant.adjacent_moves.select! { |direction, move| move.jumped_piece } # Possible source of bug
       end
     end
-
-
-
-
-
-
-
-
     choice_node = nil
     loop do
       puts 'Write the x coordinate of the piece you want to get'
@@ -611,5 +583,17 @@ class Game
     end
     @board.won?
     # if win then set winner and break
+  end
+
+  def save_game
+    puts 'Would you like to save the game? Type y for yes'
+    response = gets.chomp
+    if response == 'y' || response == 'yes'
+
+    end
+  end
+
+  def load_game
+
   end
 end
