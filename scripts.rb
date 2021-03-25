@@ -1,4 +1,5 @@
 require 'pry'
+require 'json'
 class LinkedNode
   attr_accessor :data, :next_node
 
