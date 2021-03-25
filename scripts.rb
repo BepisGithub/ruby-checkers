@@ -440,7 +440,12 @@ class Game
       puts 'Player 1!'
       @player1.get_name
       puts 'Player 2!'
+      # TODO: Both players must not have identical names
       @player2.get_name
+      while @player1.name == @player2.name
+        puts 'You can\'t have the same name as player one!' 
+        @player2.get_name
+      end
       @player1.piece_symbol = ['⛀']
       @player2.piece_symbol = ['⛂']
       @board = Board.new
