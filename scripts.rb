@@ -496,6 +496,7 @@ class Game
   end
 
   def play
+    # TODO: Add a save function
     @player1.active ? active = @player1 : active = @player2
     # check for a return value indicating a win
     result = round(active)
@@ -530,7 +531,7 @@ class Game
     # find the piece by id
     piece = @board.find_by_id(id_choice)
     move = piece.data.occupant.adjacent_moves[move_choice]
-    
+    piece = piece.data.occupant
     # check the direction choice
     if move.jumped_piece.nil?
       # if it does not involve a jump, make the move
@@ -541,8 +542,72 @@ class Game
       @board.remove_by_id(move.jumped_piece.id)
       @board.move_by_id(id_choice, move.end_spot.data.coordinate)
       # recalculate adjacency list (the other board methods should do this automatically)
-      # TODO: FIX TO ALLOW MULTI LEVEL JUMPS
-      # repeat until a jump cant be made by the piece that jumped initially (keep track with id)
+      @board.populate_all_pieces_adjacency_list
+      piece = @board.find_by_id(id_choice)
+      piece = piece.data.occupant
+      jump_num = 0
+      piece.adjacent_moves.each do |k, v|
+        if v.jumped_piece
+          jump_num += 1
+          break
+        end
+      end
+      while jump_num.positive?
+        @board.display
+        puts 'There is a multi jump (you performed a jump and there is another jump available). You must take it'
+        puts 'This will be done automatically unless there are multiple potential directions'
+        @board.populate_all_pieces_adjacency_list
+        piece = @board.find_by_id(id_choice)
+        piece = piece.data.occupant
+        piece.adjacent_moves.select! { |k, v| v.jumped_piece }
+        jump_num = piece.adjacent_moves.count
+        if jump_num == 1
+          # The piece has one move in the hash
+          # The key is the direction
+          # The value is a move instance
+          move = piece.adjacent_moves[piece.adjacent_moves.keys[0]]
+          # The move instance contains an end coordinate and a jumped piece
+          # Remove the jumped piece
+          @board.remove_by_id(move.jumped_piece.id)
+          # Move the piece to the end coordinate
+          @board.move_by_id(id_choice, move.end_spot.data.coordinate)
+        elsif jump_num > 1
+          # List the possble jumps to make
+          puts 'Which direction do you want to move the piece in?'
+          puts 'Top right? (type tr)' unless piece.adjacent_moves[:tr].nil?
+          puts 'Top left? (type tl)' unless piece.adjacent_moves[:tl].nil?
+          puts 'Bottom right? (type br)' unless piece.adjacent_moves[:br].nil?
+          puts 'Bottom left? (type bl)' unless piece.adjacent_moves[:bl].nil?
+          # Get the users choice of which jump to make
+          move_choice = nil
+          loop do
+            move_choice = gets.chomp until move_choice.is_a? String
+            case move_choice
+            when 'tr'
+              move_choice = :tr unless piece.adjacent_moves[:tr].nil?
+              break
+            when 'tl'
+              move_choice = :tl unless piece.adjacent_moves[:tl].nil?
+              break
+            when 'bl'
+              move_choice = :bl unless piece.adjacent_moves[:bl].nil?
+              break
+            when 'br'
+              move_choice = :br unless piece.adjacent_moves[:br].nil?
+              break
+            else
+              move_choice = nil
+            end
+            break unless move_choice.nil?
+          end
+          # Get the move for that direction in the hash
+          move = piece.adjacent_moves[move_choice]
+          # Remove the jumped piece
+          @board.remove_by_id(move.jumped_piece.id)
+          # Move the piece to the end coordinate
+          @board.move_by_id(id_choice, move.end_spot.data.coordinate)
+        end
+      end
     end
     @board.won?
     # if win then set winner and break
