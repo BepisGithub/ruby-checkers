@@ -476,7 +476,7 @@ class Game
     @player1.active ? active = @player1 : active = @player2
     # check for a return value indicating a win
     winner = round(active)
-    while winner == false
+    until winner
     # if no win switch active players
     # repeat
       if @player1.active
