@@ -505,6 +505,7 @@ class Game
 
     # find the piece by id
     piece = @board.find_by_id(id_choice)
+    @board.populate_all_pieces_adjacency_list
     move = piece.data.occupant.adjacent_moves[move_choice]
     piece = piece.data.occupant
     # check the direction choice
@@ -589,6 +590,7 @@ class Game
   end
 
   def save_game_prompt
+    # binding.pry
     puts 'Would you like to save the game? Type y for yes'
     response = gets.chomp
     return unless response == 'y' || response == 'yes'
