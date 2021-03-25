@@ -492,8 +492,11 @@ class Game
       @board.populate_all_pieces_adjacency_list
       save_game_prompt
     end
-    binding.pry
-    puts 'WONNNNNNNNNN' if winner
+    game_end
+  end
+
+  def game_end
+
   end
 
   def round(active)
