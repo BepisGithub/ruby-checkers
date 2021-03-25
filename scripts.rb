@@ -316,12 +316,12 @@ class Board
     top_kings.each do |top_king|
       top_king.data.occupant.king = true
       top_king.data.occupant.move_down = true
-      top_king.data.occupant.display_symbol == ['⛀'] ? top_king.data.occupant.display_symbol = ['⛁'] : ['⛃']
+      top_king.data.occupant.display_symbol == ['⛀'] ? top_king.data.occupant.display_symbol = ['⛁'] : top_king.data.occupant.display_symbol = ['⛃']
     end
     bottom_kings.each do |bottom_king|
       bottom_king.data.occupant.king = true
       bottom_king.data.occupant.move_up = true
-      bottom_king.data.occupant.display_symbol == ['⛀'] ? top_king.data.occupant.display_symbol = ['⛁'] : ['⛃']
+      bottom_king.data.occupant.display_symbol == ['⛀'] ? bottom_king.data.occupant.display_symbol = ['⛁'] : bottom_king.data.occupant.display_symbol = ['⛃']
     end
   end
 end
@@ -490,6 +490,7 @@ class Game
       @board.populate_all_pieces_adjacency_list
       save_game_prompt
     end
+    puts 'WONNNNNNNNNN' if result
   end
 
   def round(active)
@@ -629,7 +630,7 @@ class Game
       @player2.active = false
       @player1.active = true
     end
-    #binding.pry
+    # binding.pry
     play
   end
 end
