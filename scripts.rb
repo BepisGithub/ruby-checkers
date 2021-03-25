@@ -492,10 +492,10 @@ class Game
       @board.populate_all_pieces_adjacency_list
       save_game_prompt
     end
-    game_end
+    game_end(winner)
   end
 
-  def game_end
+  def game_end(winner)
 
   end
 
