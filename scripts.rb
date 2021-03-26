@@ -245,6 +245,7 @@ class Board
   end
 
   def populate_all_pieces_adjacency_list
+    king_check
     occupied = get_occupied_dark_spots
     occupied.each do |node|
       populate_adjacency_list(node.data.occupant)
@@ -448,6 +449,7 @@ class Game
   attr_accessor :player1, :player2, :board, :save_file_name
 
   def initialize
+    # TODO: CALL KING CHECK IN THE MULTI JUMP SO IF IT JUMPS AND BECOMES A KING THEN THE PIECE IS UPDATED
     @save_file_name = 'save.JSON'
     load_status = load_game
     if load_status.nil?
