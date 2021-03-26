@@ -449,7 +449,6 @@ class Game
   attr_accessor :player1, :player2, :board, :save_file_name
 
   def initialize
-    # TODO: CALL KING CHECK IN THE MULTI JUMP SO IF IT JUMPS AND BECOMES A KING THEN THE PIECE IS UPDATED
     @save_file_name = 'save.JSON'
     load_status = load_game
     if load_status.nil?
@@ -463,10 +462,9 @@ class Game
       puts 'Player 1!'
       @player1.get_name
       puts 'Player 2!'
-      # TODO: Both players must not have identical names
       @player2.get_name
       while @player1.name == @player2.name
-        puts 'You can\'t have the same name as player one!' 
+        puts 'You can\'t have the same name as player one!'
         @player2.get_name
       end
       @player1.piece_symbol = ['⛀']
