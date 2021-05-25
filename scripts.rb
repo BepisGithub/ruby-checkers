@@ -1,4 +1,3 @@
-require 'pry'
 require 'yaml'
 class LinkedNode
   attr_accessor :data, :next_node
@@ -398,6 +397,7 @@ class Player
       piece = piece.data.occupant
       move_choice = piece.adjacent_moves.keys.sample while move_choice.nil?
     else
+      # FIX
       loop do
         puts 'Write the x coordinate of the piece you want to get'
         puts 'If you can make a jump, you must' if jump_possible
@@ -516,7 +516,6 @@ class Game
       end
       winner = round(active)
       @board.populate_all_pieces_adjacency_list
-      save_game_prompt
     end
     game_end(winner)
   end
@@ -535,6 +534,7 @@ class Game
     @board.display
     puts "#{active.name}, your symbol is #{active.piece_symbol}. It's your turn to make a move"
     move_choice = active.get_choice(@board) # returns an array with the id and the direction choice
+    save_game_prompt
     while move_choice.nil?
       move_choice = active.get_choice(@board) # returns an array with the id and the direction choice
     end
@@ -670,3 +670,6 @@ class Game
     # binding.pry
   end
 end
+
+game = Game.new
+game.play
