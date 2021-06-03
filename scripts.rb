@@ -359,8 +359,7 @@ class Player
 
   def get_name
     if ai
-      rand_num = rand(1..2)
-      rand_num == 1 ? @name = 'DAVE' : @name = 'BOT'
+      @name = 'BOT'
     else
       puts 'What\'s your name? '
       name = gets.chomp.capitalize
